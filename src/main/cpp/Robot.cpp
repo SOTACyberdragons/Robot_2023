@@ -20,7 +20,10 @@ void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
 }
 
-void Robot::AutonomousInit() {}
+void Robot::AutonomousInit() {
+  
+  frc2::CommandScheduler().GetInstance().Schedule(cb::DriveForward(6_m));
+}
  
 void Robot::TeleopInit() {
   frc2::CommandScheduler::GetInstance().SetDefaultCommand(&cb::g_drivetrain, cb::DifferentialDriveWithJoysticks());

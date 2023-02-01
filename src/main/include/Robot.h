@@ -14,6 +14,7 @@
 
 //commands not included in robot container
 #include "command_headers/DifferentialDriveWithJoysticks.h"
+#include "command_headers/auto/DriveForward.h"
 
 class Robot : public frc::TimedRobot {
 public:
