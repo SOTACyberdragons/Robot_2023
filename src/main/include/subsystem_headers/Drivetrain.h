@@ -1,6 +1,8 @@
 #ifndef DRIVE_TRAIN
 #define DRIVE_TRAIN
 
+#include <iostream>
+
 #include <frc2/command/SubsystemBase.h>
 #include <frc/kinematics/DifferentialDriveOdometry.h>
 #include <frc/kinematics/DifferentialDriveWheelSpeeds.h>
@@ -47,8 +49,8 @@ namespace cb {
 
         bool leftEncoderOutOfPhase();
 
-        double getLeftDistance();
-        double getRightDistance();
+        units::meter_t getLeftDistance();
+        units::meter_t getRightDistance();
 
         double getTurnRate();
 
@@ -67,8 +69,12 @@ namespace cb {
 
         void setDistance(double distance);
 
+        void resetDistance();
         void resetTalons();
 
+        //copy constructor
+        Drivetrain(const Drivetrain& drivetrain);
+        //constructor
         Drivetrain(); 
     };
 }

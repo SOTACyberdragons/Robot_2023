@@ -75,8 +75,8 @@ namespace cb {
     inline constexpr double pi = 3.14159265358979323846;
 
     // XBox Controller Drivetrain Constants
-    inline constexpr double kMaxDriveSpeed = 0.35;
-    inline constexpr double kMaxTurnSpeed = 0.3;
+    inline constexpr double kMaxDriveSpeed = 0.7;
+    inline constexpr double kMaxTurnSpeed = 0.7;
 
     // Drivetrain wheel constants
     inline constexpr int kEncoderCPR = 2048;

@@ -16,11 +16,14 @@
 #include "command_headers/DifferentialDriveWithJoysticks.h"
 #include "command_headers/auto/DriveForward.h"
 
-class Robot : public frc::TimedRobot {
+namespace cb {
+  class Robot : public frc::TimedRobot {
 public:
   void RobotInit() override;
   void RobotPeriodic() override;
   void AutonomousInit() override;
+  void AutonomousPeriodic() override;
+  void AutonomousExit() override;
   void TeleopInit() override;
   void TeleopPeriodic() override;
   void DisabledInit() override;
@@ -30,5 +33,5 @@ public:
   void SimulationInit() override;
   void SimulationPeriodic() override;
 private:
-  
 };
+}

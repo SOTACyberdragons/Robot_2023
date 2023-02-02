@@ -1,22 +1,26 @@
 #ifndef ROBOT_CONTAINER
 #define ROBOT_CONTAINER
 
+#include <memory>
+
 #include <frc2/command/Command.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/XboxController.h>
 
 #include "Constants.h"
 
 //subsystems
 #include "subsystem_headers/Drivetrain.h"
-#include "subsystem_headers/Climber.h"
 #include "subsystem_headers/VisionProcessor.h"
+
+//auto commands
+#include "command_headers/auto/DriveForward.h"
 
 namespace cb {
     //subsystem objects
     inline Drivetrain g_drivetrain;
-    inline Climber g_climber;
-    inline VisionProcessor m_visionProcessor;
+    //inline VisionProcessor m_visionProcessor;
 
     //the physical xbox controller, mapped to port 0
     static const frc::XboxController controller { 0 };
@@ -31,13 +35,12 @@ namespace cb {
         return controller.GetRightX() * kMaxTurnSpeed;
     }
 
-    static frc::SendableChooser<frc2::Command*> autoChooser;
-
-    [[nodiscard]] frc2::Command* getAuto();
+    static frc::SendableChooser<std::unique_ptr<frc2::Command>> autoChooser;
 
     void configureButtonBindings();
 
     void addAutoModeOptions();
+    frc2::Command* getSelectedAutoCommand();
 }
 
 #endif

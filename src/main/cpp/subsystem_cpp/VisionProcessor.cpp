@@ -42,7 +42,7 @@ void cb::VisionProcessor::Periodic() {
     // Setup a CvSource. This will send images back to the Dashboard
     cs::CvSource outputStream =
         frc::CameraServer::PutVideo("Rectangle", 640, 480);
-
+    
     cv::Mat mat, grey;
 
     int count = 0;
@@ -54,12 +54,21 @@ void cb::VisionProcessor::Periodic() {
       }
 
       m_coneProcessor.Process(mat);
-      auto blobs = m_coneProcessor.GetFindBlobsOutput();
-    
-      if (blobs->size() > 0) {
-        std::cout << "Shape detected!\n";
+      std::vector<cv::KeyPoint>* blobs = m_coneProcessor.GetFindBlobsOutput();
+      if (m_coneProcessor.GetFindBlobsOutput()->size() > 0) { //if we have detected shapes
+        std::cout << "Shapes detected!\n";
+        std::vector<std::vector<cv::Point>> contours;
+        for (const cv::KeyPoint& blob : *blobs) { //convert the blobs to contours
+          contours.push_back(std::vector<cv::Point>{blob.pt});
+        }
+        cv::Rect r = cv::boundingRect(contours);
+        m_centerX = r.x + (r.width / 2);
       }
     }
+}
+
+int cb::VisionProcessor::getCenterX() const noexcept {
+  return m_centerX;
 }
 
 void cb::VisionProcessor::stop() {

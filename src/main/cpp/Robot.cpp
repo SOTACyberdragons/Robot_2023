@@ -8,43 +8,54 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
-void Robot::RobotInit() {
+void cb::Robot::RobotInit() {
   std::cout << "Surge initializing\n";
 
-  cb::addAutoModeOptions();
+  addAutoModeOptions();
 
-  cb::configureButtonBindings(); //map buttons
+  configureButtonBindings(); //map buttons
 }
 
-void Robot::RobotPeriodic() {
+void cb::Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
 }
 
-void Robot::AutonomousInit() {
-  
-  frc2::CommandScheduler().GetInstance().Schedule(cb::DriveForward(6_m));
+void cb::Robot::AutonomousInit() {
+  frc2::Command* command = getSelectedAutoCommand();
+
+  if (command != nullptr) {
+    command->Schedule();
+  }
 }
- 
-void Robot::TeleopInit() {
+
+void cb::Robot::AutonomousPeriodic() {}
+
+void cb::Robot::AutonomousExit() {}
+
+void cb::Robot::TeleopInit() {
   frc2::CommandScheduler::GetInstance().SetDefaultCommand(&cb::g_drivetrain, cb::DifferentialDriveWithJoysticks());
 }
 
-void Robot::TeleopPeriodic() {}
+void cb::Robot::TeleopPeriodic() {}
 
-void Robot::DisabledInit() {}
+void cb::Robot::DisabledInit() {
+  frc2::CommandScheduler::GetInstance().CancelAll(); //cancel all commands
+  g_drivetrain.resetTalons();
+  g_drivetrain.resetDistance();
+}
 
-void Robot::DisabledPeriodic() {}
+void cb::Robot::DisabledPeriodic() {}
 
-void Robot::TestInit() {}
+void cb::Robot::TestInit() {}
 
-void Robot::TestPeriodic() {}
+void cb::Robot::TestPeriodic() {}
 
-void Robot::SimulationInit() {}
+void cb::Robot::SimulationInit() {}
 
-void Robot::SimulationPeriodic() {}
+void cb::Robot::SimulationPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
 int main() {
-  return frc::StartRobot<Robot>();
+  return frc::StartRobot<cb::Robot>();
 }
 #endif

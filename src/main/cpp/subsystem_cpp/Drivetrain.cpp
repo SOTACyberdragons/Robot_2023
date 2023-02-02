@@ -45,12 +45,12 @@ bool cb::Drivetrain::leftEncoderOutOfPhase() {
     return m_faults.SensorOutOfPhase;
 }
 
-double cb::Drivetrain::getLeftDistance() {
-    return m_leftMaster.GetSelectedSensorPosition() * kEncoderDistancePerPulse;
+units::meter_t cb::Drivetrain::getLeftDistance() {
+    return static_cast<units::meter_t>(m_leftMaster.GetSelectedSensorPosition() * kEncoderDistancePerPulse);
 }
 
-double cb::Drivetrain::getRightDistance() {
-    return m_rightMaster.GetSelectedSensorPosition() * kEncoderDistancePerPulse;
+units::meter_t cb::Drivetrain::getRightDistance() {
+    return static_cast<units::meter_t>(m_rightMaster.GetSelectedSensorPosition() * kEncoderDistancePerPulse);
 }
 
 void cb::Drivetrain::resetOdometry(frc::Pose2d pose) {
@@ -59,6 +59,7 @@ void cb::Drivetrain::resetOdometry(frc::Pose2d pose) {
 }
 
 void cb::Drivetrain::arcadeDrive(double fwd, double rot) {
+    std::cout << static_cast<int>(getLeftDistance()) << std::endl;
     m_drive.ArcadeDrive(fwd, rot);
 }
 
@@ -85,9 +86,14 @@ void cb::Drivetrain::setAngle(double angle) {
 void cb::Drivetrain::setDistance(double distance) {
     double distanceTicks = distance / kEncoderDistancePerPulse;
     double totalDistance = 
-    ((m_leftMaster.GetSelectedSensorPosition(0) + m_rightMaster.GetSelectedSensorPosition(0)) / 2) + distanceTicks;
+    ((m_leftMaster.GetSelectedSensorPosition() + m_rightMaster.GetSelectedSensorPosition()) / 2) + distanceTicks;
     double angle = getAngle();
     m_rightMaster.Set(ControlMode::MotionMagic, totalDistance, DemandType::DemandType_AuxPID, angle);
+}
+
+void cb::Drivetrain::resetDistance() {
+    m_leftMaster.SetSelectedSensorPosition(0);
+    m_rightMaster.SetSelectedSensorPosition(0);
 }
 
 void cb::Drivetrain::resetTalons() {
