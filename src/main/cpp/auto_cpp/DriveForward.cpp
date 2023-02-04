@@ -9,7 +9,7 @@ void cb::DriveForward::Execute() {
 }
 
 bool cb::DriveForward::IsFinished() {
-    return m_drive.getRightDistance() > m_meters;
+    return m_drive.getRightDistance() > m_meters && m_drive.getLeftDistance() > m_meters;
 }
 
 cb::DriveForward::DriveForward(Drivetrain& drivetrain, units::meter_t meters) 

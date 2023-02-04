@@ -108,6 +108,9 @@ void cb::Drivetrain::resetTalons() {
     m_leftMaster.SetSensorPhase(false);
     m_rightMaster.SetSensorPhase(false);
 
+    m_leftMaster.SetSelectedSensorPosition(0);
+    m_rightMaster.SetSelectedSensorPosition(0);
+
     m_leftMaster.SetInverted(true);
     m_leftSlave.SetInverted(true);
     m_rightMaster.SetInverted(false);

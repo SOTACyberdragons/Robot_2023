@@ -1,6 +1,9 @@
 #ifndef CONSTANTS
 #define CONSTANTS
 
+#include <units/length.h>
+#include <units/acceleration.h>
+
 namespace cb {
     /**
      * Talon SRX/ Victor SPX will supported multiple (cascaded) PID loops. For now we just want the
@@ -15,8 +18,8 @@ namespace cb {
     inline constexpr int TIMEOUT_MS = 10;
 
     //talon IDs
-    inline constexpr int LEFT_MASTER_ID = 1;
-    inline constexpr int LEFT_SLAVE_ID = 0;
+    inline constexpr int LEFT_MASTER_ID = 0;
+    inline constexpr int LEFT_SLAVE_ID = 1;
     inline constexpr int RIGHT_MASTER_ID = 3;
     inline constexpr int RIGHT_SLAVE_ID = 2;
 
@@ -24,7 +27,7 @@ namespace cb {
     inline constexpr int LEFT_SHOOTER_MOTOR_ID = 4;
     inline constexpr int RIGHT_SHOOTER_MOTOR_ID = 5;
 
-    // robotintake
+    //robot intake
     inline constexpr int INTAKE_MOTOR_ID = 6;
     inline constexpr int FEEDER_MOTOR_ID = 7;
 
@@ -49,12 +52,16 @@ namespace cb {
     inline constexpr int kPIDLoopIdx = 0;
     inline constexpr double kEncoderMaxSpeed = 33000;
 
-    //TODO Forward robot characterization data
-    inline constexpr double ksDrivetrain = 0.77132;
-    inline constexpr double kvDrivetrain = 5.0013;
-    inline constexpr double kaDrivetrain = 2.0347;
+    //Feedforward robot characterization data
+    inline constexpr units::volt_t ksDrivetrain = 0.26443_V;
+    inline constexpr auto kvDrivetrain = 0.71799 * 1_V * 1_s / 1_m;
+    inline constexpr auto kaDrivetrain = 0.33937 * 1_V * 1_s * 1_s / 1_m;
 
-    //TODO PID values for forward drivetrain commands
+    //Max speed and acceleration
+    inline constexpr units::meters_per_second_t kMaxSpeed = 3_mps;
+    inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 3_mps_sq;
+
+    //PID values for forward drivetrain commands
     inline constexpr double kPDrivetrain = 0.12991;
     inline constexpr double kIDrivetrain = 0.0;
     inline constexpr double kDDrivetrain = 0.013708;
@@ -69,7 +76,19 @@ namespace cb {
     inline constexpr double kIAngular = 0.0;
     inline constexpr double kDAngular = 0.00082831;
 
-    inline constexpr double kTrackwidthMeters = 0.25732;
+    /*The RamseteController constructor signature changed, 
+    so we have to use these units instead of double. I have no idea
+    what literals to use so I'm just brute forcing these conversions with
+    the aliases*/
+    using b_unit =
+      units::unit_t<units::compound_unit<units::squared<units::radians>,
+                           units::inverse<units::squared<units::meters>>>>;
+    using zeta_unit = units::unit_t<units::inverse<units::radians>>;
+
+    inline constexpr b_unit kRamseteB = 2 * b_unit(1); 
+    inline constexpr zeta_unit kRamseteZeta = 0.7 * zeta_unit(1);
+
+    inline constexpr units::meter_t kTrackwidthMeters = 0.25732_m;
 
     //math stuff
     inline constexpr double pi = 3.14159265358979323846;

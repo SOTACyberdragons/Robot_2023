@@ -5,6 +5,7 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/kinematics/DifferentialDriveOdometry.h>
+#include <frc/kinematics/DifferentialDriveKinematics.h>
 #include <frc/kinematics/DifferentialDriveWheelSpeeds.h>
 #include <frc/drive/DifferentialDrive.h>
 
@@ -12,6 +13,7 @@
 #include <ctre/phoenix/motorcontrol/Faults.h>
 #include <ctre/phoenix/sensors/WPI_PigeonIMU.h>
 
+#include "subsystem_headers/Drivetrain.h"
 #include "Constants.h"
 
 using ctre::phoenix::motorcontrol::can::WPI_TalonFX;
@@ -22,6 +24,8 @@ using ctre::phoenix::motorcontrol::ControlMode;
 using ctre::phoenix::motorcontrol::DemandType;
 
 namespace cb {
+    inline const frc::DifferentialDriveKinematics kDriveKinematics(kTrackwidthMeters);
+
     class Drivetrain : public frc2::SubsystemBase {
     private:
         WPI_TalonFX m_leftMaster { cb::LEFT_MASTER_ID };
@@ -77,6 +81,9 @@ namespace cb {
         //constructor
         Drivetrain(); 
     };
+
+    //subsystem instance
+    inline Drivetrain g_drivetrain;
 }
 
 #endif

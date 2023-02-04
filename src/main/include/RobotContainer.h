@@ -18,8 +18,6 @@
 #include "command_headers/auto/DriveForward.h"
 
 namespace cb {
-    //subsystem objects
-    inline Drivetrain g_drivetrain;
     //inline VisionProcessor m_visionProcessor;
 
     //the physical xbox controller, mapped to port 0
@@ -27,7 +25,7 @@ namespace cb {
 
     // Return XBox left stick for throttle control
     inline double getXBoxThrottle() {
-        return controller.GetLeftY() * kMaxDriveSpeed;
+        return -1 * controller.GetLeftY() * kMaxDriveSpeed;
     }
 
     // Return XBox right stick for rotational control
