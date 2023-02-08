@@ -62,6 +62,7 @@ namespace cb {
         frc::Pose2d getPose();
 
         void resetOdometry(frc::Pose2d pose);
+        void resetPosition();
 
         void arcadeDrive(double fwd, double rot);
 

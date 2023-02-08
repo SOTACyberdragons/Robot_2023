@@ -47,6 +47,12 @@ namespace cb {
     // DIO
     inline constexpr int FEEDER_BREAKBEAM_ID = 1;
 
+    //Solenoid arm ID
+    inline constexpr int SOLENOID_ID = 0;
+
+    //limb motor ID
+    inline constexpr int LIMB_ID = 4;
+
     //pigeon ID
     inline constexpr int PIGEON_IMU_ID = 14;
 
@@ -57,17 +63,20 @@ namespace cb {
 
     //Feedforward robot characterization data
     inline constexpr units::volt_t ksDrivetrain = 0.26443_V;
-    inline constexpr auto kvDrivetrain = 0.71799 * 1_V * 1_s / 1_m;
+    inline constexpr auto kvDrivetrain = 0.41799 * 1_V * 1_s / 1_m; //previously 0.71799
     inline constexpr auto kaDrivetrain = 0.33937 * 1_V * 1_s * 1_s / 1_m;
 
     //Max speed and acceleration
-    inline constexpr units::meters_per_second_t kMaxSpeed = 3_mps;
-    inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 3_mps_sq;
+    inline constexpr units::meters_per_second_t kMaxSpeed = 1_mps;
+    inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 1_mps_sq;
 
     //PID values for forward drivetrain commands
-    inline constexpr double kPDrivetrain = 0.12991;
-    inline constexpr double kIDrivetrain = 0.0;
-    inline constexpr double kDDrivetrain = 0.013708;
+    inline constexpr double kPDrivetrain = 1.0782; //previously 1.0782
+    inline constexpr double kIDrivetrain = 0.6;
+    inline constexpr double kDDrivetrain = 0.6; //previously 0.43708
+
+    //voltage used to rotate the arm
+    inline constexpr units::volt_t armVoltage = 1_V;
 
     //TODO Angular robot characterization data
     inline constexpr double ksAngular = 0.7918;
@@ -81,10 +90,9 @@ namespace cb {
 
     /*The RamseteController constructor signature changed, 
     so we have to use these units instead of double. I have no idea
-    what literals to use so I'm just brute forcing these conversions with
-    the aliases*/
-    using b_unit =
-      units::unit_t<units::compound_unit<units::squared<units::radians>,
+    what literals to use so I'm just converting them with
+    these aliases*/
+    using b_unit = units::unit_t<units::compound_unit<units::squared<units::radians>,
                            units::inverse<units::squared<units::meters>>>>;
     using zeta_unit = units::unit_t<units::inverse<units::radians>>;
 
@@ -93,8 +101,20 @@ namespace cb {
 
     inline constexpr units::meter_t kTrackwidthMeters = 0.25732_m;
 
-    //math stuff
+    //pi
     inline constexpr double pi = 3.14159265358979323846;
+
+    //camera resolution constants
+    inline constexpr int cameraWidth = 640;
+    inline constexpr int cameraHeight = 480;
+
+    inline constexpr int cameraFocalLength = 20;
+
+    //object size constants
+    inline constexpr int coneWidth = 0;
+    inline constexpr int coneHeight = 0;
+    inline constexpr int cubeWidth = 0;
+    inline constexpr int cubeHeight = 0;
 
     // XBox Controller Drivetrain Constants
     inline constexpr double kMaxDriveSpeed = 0.7;

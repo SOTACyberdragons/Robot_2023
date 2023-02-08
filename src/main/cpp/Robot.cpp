@@ -4,15 +4,10 @@
 
 #include "Robot.h"
 
-#include <fmt/core.h>
-#include <frc/smartdashboard/SmartDashboard.h>
-
 void cb::Robot::RobotInit() {
-  std::cout << "Surge initializing\n";
+  std::cout << "Vader initializing\n";
 
   addAutoModeOptions();
-
-  configureButtonBindings(); //map buttons
 }
 
 void cb::Robot::RobotPeriodic() {
@@ -32,7 +27,7 @@ void cb::Robot::AutonomousPeriodic() {}
 void cb::Robot::AutonomousExit() {}
 
 void cb::Robot::TeleopInit() {
-  frc2::CommandScheduler::GetInstance().SetDefaultCommand(&cb::g_drivetrain, cb::DifferentialDriveWithJoysticks());
+  configureButtonBindings(); //map buttons
 }
 
 void cb::Robot::TeleopPeriodic() {}
@@ -41,6 +36,10 @@ void cb::Robot::DisabledInit() {
   frc2::CommandScheduler::GetInstance().CancelAll(); //cancel all commands
   g_drivetrain.resetTalons();
   g_drivetrain.resetDistance();
+
+  //the position of the robot doesn't get fully reset to 0, 0 until two disablings
+  //I have no idea why. 
+  g_drivetrain.resetPosition();
 }
 
 void cb::Robot::DisabledPeriodic() {}

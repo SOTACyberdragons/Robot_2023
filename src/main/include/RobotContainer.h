@@ -4,11 +4,14 @@
 #include <memory>
 
 #include <frc2/command/Command.h>
+#include <frc2/command/InstantCommand.h>
+#include <frc2/command/PerpetualCommand.h>
+
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-#include <frc2/command/button/Trigger.h>
-#include <frc/XboxController.h>
+#include <frc2/command/FunctionalCommand.h>
 #include <frc2/command/button/CommandXboxController.h>
+#include <frc2/command/button/Trigger.h>
 
 #include "Constants.h"
 

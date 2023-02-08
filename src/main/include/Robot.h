@@ -9,11 +9,11 @@
 #include <frc2/command/Command.h>
 
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include "RobotContainer.h"
 
 //commands not included in robot container
-#include "command_headers/DifferentialDriveWithJoysticks.h"
 #include "command_headers/auto/DriveForward.h"
 
 namespace cb {

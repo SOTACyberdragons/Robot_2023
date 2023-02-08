@@ -1,6 +1,8 @@
 #include "subsystem_headers/Drivetrain.h"
 
 void cb::Drivetrain::Periodic() {
+    std::cout << m_odometry.GetPose().X().to<double>() << ", " << m_odometry.GetPose().Y().to<double>() << std::endl;
+
     m_odometry.Update(getHeading(), units::meter_t(getLeftDistance()), units::meter_t(getRightDistance()));
 }
 
@@ -55,11 +57,15 @@ units::meter_t cb::Drivetrain::getRightDistance() {
 
 void cb::Drivetrain::resetOdometry(frc::Pose2d pose) {
     resetEncoders();
-    m_odometry.ResetPosition(getHeading(), 0_m, 0_m, pose);
+    
+    m_odometry.ResetPosition(getHeading(), 0.0_m, 0.0_m, pose);
+}
+
+void cb::Drivetrain::resetPosition() {
+    m_odometry.ResetPosition(frc::Rotation2d(0.0, 0.0), 0.0_m, 0.0_m, frc::Pose2d(0.0_m, 0.0_m, frc::Rotation2d(0.0, 0.0)));
 }
 
 void cb::Drivetrain::arcadeDrive(double fwd, double rot) {
-    std::cout << static_cast<int>(getLeftDistance()) << std::endl;
     m_drive.ArcadeDrive(fwd, rot);
 }
 
