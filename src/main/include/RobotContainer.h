@@ -16,24 +16,23 @@
 
 //auto commands
 #include "command_headers/auto/DriveForward.h"
+#include "command_headers/auto/DriveMeters.h"
 
 namespace cb {
-    //inline VisionProcessor m_visionProcessor;
-
     //the physical xbox controller, mapped to port 0
     static const frc::XboxController controller { 0 };
 
-    // Return XBox left stick for throttle control
+    //Return XBox left stick for throttle control
     inline double getXBoxThrottle() {
         return -1 * controller.GetLeftY() * kMaxDriveSpeed;
     }
 
-    // Return XBox right stick for rotational control
+    //Return XBox right stick for rotational control
     inline double getXBoxRotation() {
         return controller.GetRightX() * kMaxTurnSpeed;
     }
 
-    static frc::SendableChooser<std::unique_ptr<frc2::Command>> autoChooser;
+    static frc::SendableChooser<frc2::Command*> autoChooser;
 
     void configureButtonBindings();
 
