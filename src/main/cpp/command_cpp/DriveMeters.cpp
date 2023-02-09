@@ -1,6 +1,6 @@
-#include "command_headers/auto/DriveMeters.h"
+#include "command_headers/DriveMeters.h"
 
-frc2::Command *cb::driveMeters(units::meter_t meters)
+frc2::RamseteCommand cb::driveMeters(units::meter_t meters)
 {
     // prevents the robot from accelerating too fast
     frc::DifferentialDriveVoltageConstraint constraint(
@@ -24,7 +24,7 @@ frc2::Command *cb::driveMeters(units::meter_t meters)
         frc::Pose2d(meters, 0_m, frc::Rotation2d(0_deg)),
         config);
 
-    return new frc2::RamseteCommand(
+    return frc2::RamseteCommand(
         trajectory,
         [&]() { return g_drivetrain.getPose(); },
         frc::RamseteController(cb::kRamseteB, cb::kRamseteZeta),

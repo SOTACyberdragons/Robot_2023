@@ -13,5 +13,5 @@
 #include "Constants.h"
 
 namespace cb {
-    [[nodiscard]] frc2::Command* driveMeters(units::meter_t meters);
+    [[nodiscard]] frc2::RamseteCommand driveMeters(units::meter_t meters);
 }

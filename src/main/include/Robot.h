@@ -13,9 +13,6 @@
 
 #include "RobotContainer.h"
 
-//commands not included in robot container
-#include "command_headers/auto/DriveForward.h"
-
 namespace cb {
   class Robot : public frc::TimedRobot {
 public:

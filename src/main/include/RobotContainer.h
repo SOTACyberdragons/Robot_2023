@@ -21,8 +21,7 @@
 #include "subsystem_headers/Arm.h"
 
 //auto commands
-#include "command_headers/auto/DriveForward.h"
-#include "command_headers/auto/DriveMeters.h"
+#include "command_headers/DriveMeters.h"
 
 namespace cb {
     //the physical xbox controller, mapped to port 0

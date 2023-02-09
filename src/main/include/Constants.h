@@ -78,6 +78,9 @@ namespace cb {
     //voltage used to rotate the arm
     inline constexpr units::volt_t armVoltage = 1_V;
 
+    inline constexpr units::volt_t rampVoltage = 2_V;  // voltage for driving up the ramp
+    inline constexpr units::volt_t topVoltage = 0.5_V; // voltage for when when robot is on top of community zone
+
     //TODO Angular robot characterization data
     inline constexpr double ksAngular = 0.7918;
     inline constexpr double kvAngular = 0.0022871;

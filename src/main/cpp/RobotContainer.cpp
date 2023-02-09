@@ -2,7 +2,7 @@
 #include <string>
 
 void cb::addAutoModeOptions() {
-    autoChooser.AddOption("5 meter forward path", driveMeters(5_m));
+    autoChooser.AddOption("5 meter forward path", new frc2::RamseteCommand(driveMeters(5_m)));
     
     frc::SmartDashboard::PutData("Autonomous Modes", &autoChooser);
 }
