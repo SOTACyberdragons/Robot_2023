@@ -15,10 +15,10 @@ void cb::Robot::RobotPeriodic() {
 }
 
 void cb::Robot::AutonomousInit() {
-  frc2::Command* command = getSelectedAutoCommand();
+  m_autoCommand = getSelectedAutoCommand();
 
-  if (command != nullptr) {
-    command->Schedule();
+  if (m_autoCommand != nullptr) {
+    m_autoCommand->Schedule();
   }
 }
 
@@ -37,8 +37,7 @@ void cb::Robot::DisabledInit() {
   g_drivetrain.resetTalons();
   g_drivetrain.resetDistance();
 
-  //the position of the robot doesn't get fully reset to 0, 0 until two disablings
-  //I have no idea why. 
+  //the position of the robot doesn't get fully reset to 0, 0
   g_drivetrain.resetPosition();
 }
 

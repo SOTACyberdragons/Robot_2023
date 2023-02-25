@@ -5,7 +5,7 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/InstantCommand.h>
-#include <frc2/command/PerpetualCommand.h>
+#include <frc2/command/SequentialCommandGroup.h>
 
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -22,12 +22,16 @@
 
 //auto commands
 #include "command_headers/DriveMeters.h"
+#include "command_headers/Climb.h"
 
 namespace cb {
     //the physical xbox controller, mapped to port 0
-    static const frc2::CommandXboxController con1 { 0 }, con2 { 1 };
+    static frc2::CommandXboxController con1 { 0 }, con2 { 1 };
 
     static const frc2::Trigger controllerX;
+
+    static bool lowPower = false; //toggles low/high speed for drivetrain voltage
+    static bool previouslyStoppedArm = false;
 
     //Return XBox left stick for throttle control
     inline double getXBoxThrottle() {
@@ -44,7 +48,7 @@ namespace cb {
     void configureButtonBindings();
 
     void addAutoModeOptions();
-    frc2::Command* getSelectedAutoCommand();
+    [[nodiscard]] frc2::Command* getSelectedAutoCommand();
 }
 
 #endif

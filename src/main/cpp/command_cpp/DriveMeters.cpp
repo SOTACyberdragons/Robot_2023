@@ -6,7 +6,7 @@ frc2::RamseteCommand cb::driveMeters(units::meter_t meters)
     frc::DifferentialDriveVoltageConstraint constraint(
         frc::SimpleMotorFeedforward<units::meter>(
             cb::ksDrivetrain, cb::kvDrivetrain, cb::kaDrivetrain),
-        cb::kDriveKinematics, 2_V);
+        cb::kDriveKinematics, 4_V);
 
     // Set up config for trajectory
     frc::TrajectoryConfig config(cb::kMaxSpeed, cb::kMaxAcceleration);
@@ -17,11 +17,14 @@ frc2::RamseteCommand cb::driveMeters(units::meter_t meters)
     // Apply the voltage constraint
     config.AddConstraint(constraint);
 
+    frc::Pose2d robotPosition = g_drivetrain.getPose();
+    units::meter_t x = robotPosition.X(), y = robotPosition.Y();
+
     // An example trajectory to follow.  All units in meters.
     auto trajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-        frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
-        {},
-        frc::Pose2d(meters, 0_m, frc::Rotation2d(0_deg)),
+        frc::Pose2d(x, y, frc::Rotation2d(0_deg)), //startpoint
+        {}, //no interior waypoints
+        frc::Pose2d(x + meters, y, frc::Rotation2d(0_deg)), //endpoint
         config);
 
     return frc2::RamseteCommand(
@@ -37,3 +40,4 @@ frc2::RamseteCommand cb::driveMeters(units::meter_t meters)
         {&g_drivetrain}
     );
 };
+

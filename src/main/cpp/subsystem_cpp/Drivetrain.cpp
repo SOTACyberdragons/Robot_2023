@@ -1,7 +1,10 @@
 #include "subsystem_headers/Drivetrain.h"
 
 void cb::Drivetrain::Periodic() {
-    std::cout << m_odometry.GetPose().X().to<double>() << ", " << m_odometry.GetPose().Y().to<double>() << std::endl;
+    std::cout << "Right Master: " << m_rightMaster.GetSelectedSensorPosition() << std::endl;
+    std::cout << "Right Slave: " << m_rightSlave.GetSelectedSensorPosition() << std::endl;
+    std::cout << "Left Master: " << m_leftMaster.GetSelectedSensorPosition() << std::endl;
+    std::cout << "Left Slave: " << m_leftSlave.GetSelectedSensorPosition() << std::endl;
 
     m_odometry.Update(getHeading(), units::meter_t(getLeftDistance()), units::meter_t(getRightDistance()));
 }
@@ -55,6 +58,10 @@ units::meter_t cb::Drivetrain::getRightDistance() {
     return static_cast<units::meter_t>(m_rightMaster.GetSelectedSensorPosition() * kEncoderDistancePerPulse);
 }
 
+const WPI_PigeonIMU& cb::Drivetrain::getGyro() const {
+    return m_gyro;
+}
+
 void cb::Drivetrain::resetOdometry(frc::Pose2d pose) {
     resetEncoders();
     
@@ -99,7 +106,9 @@ void cb::Drivetrain::setDistance(double distance) {
 
 void cb::Drivetrain::resetDistance() {
     m_leftMaster.SetSelectedSensorPosition(0);
+    m_leftSlave.SetSelectedSensorPosition(0);
     m_rightMaster.SetSelectedSensorPosition(0);
+    m_rightSlave.SetSelectedSensorPosition(0);
 }
 
 void cb::Drivetrain::resetTalons() {
@@ -115,12 +124,14 @@ void cb::Drivetrain::resetTalons() {
     m_rightMaster.SetSensorPhase(false);
 
     m_leftMaster.SetSelectedSensorPosition(0);
+    m_leftSlave.SetSelectedSensorPosition(0);
     m_rightMaster.SetSelectedSensorPosition(0);
+    m_rightSlave.SetSelectedSensorPosition(0);
 
-    m_leftMaster.SetInverted(true);
-    m_leftSlave.SetInverted(true);
-    m_rightMaster.SetInverted(false);
-    m_rightSlave.SetInverted(false);
+    m_leftMaster.SetInverted(false);
+    m_leftSlave.SetInverted(false);
+    m_rightMaster.SetInverted(true);
+    m_rightSlave.SetInverted(true);
 
     m_leftMaster.SetNeutralMode(NeutralMode::Coast);
     m_leftSlave.SetNeutralMode(NeutralMode::Coast);

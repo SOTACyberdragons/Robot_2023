@@ -1,30 +1,46 @@
 #include "RobotContainer.h"
-#include <string>
 
 void cb::addAutoModeOptions() {
-    autoChooser.AddOption("5 meter forward path", new frc2::RamseteCommand(driveMeters(5_m)));
-    
+    autoChooser.AddOption("Drive to ramp", new frc2::RamseteCommand(driveMeters(2.5146_m)));
     frc::SmartDashboard::PutData("Autonomous Modes", &autoChooser);
 }
 
 frc2::Command* cb::getSelectedAutoCommand() {
-     return autoChooser.GetSelected();
+    return autoChooser.GetSelected();
 }
 
 void cb::configureButtonBindings() {
-    con2.A().OnTrue(new frc2::InstantCommand([&]() { //rotate the arm back
-        g_arm.moveLimb(armVoltage);
-    }));
-    con2.B().OnTrue(new frc2::InstantCommand([&]() { //rotate the arm forward
-        g_arm.moveLimb(-armVoltage);
-    }));
-    con2.X().OnTrue(new frc2::InstantCommand([&]() { //turn the solenoid 10 degrees
-        g_arm.activateSolenoid(true);
-    }));
-    con2.Y().OnTrue(new frc2::InstantCommand([&]() { //turn the solenoid 20 degrees
-        g_arm.activateSolenoid(false);
+    con1.RightTrigger().OnTrue(new frc2::InstantCommand([]() {
+        std::cout << "Pitch: " << g_drivetrain.getGyro().GetPitch() << std::endl;
+        std::cout << "Roll: " << g_drivetrain.getGyro().GetRoll() << std::endl;
+        std::cout << "Yaw: " << g_drivetrain.getGyro().GetYaw() << std::endl;
+        std::cout << "Fused Heading: " << g_drivetrain.getGyro().GetFusedHeading() << std::endl;
+        std::cout << "Low Power Mode: " << lowPower << std::endl;
     }));
 
+    con1.A().OnTrue(new frc2::InstantCommand(
+        []() {
+            lowPower = !lowPower; //toggle low power mode for drivetrain motors
+            if (lowPower) {
+                kMaxDriveSpeed = 0.5;
+                kMaxTurnSpeed = 0.5;
+            } else {
+                kMaxDriveSpeed = 0.85;
+                kMaxTurnSpeed = 0.85;
+            }
+        }
+    ));
+
+    // frc2::CommandScheduler::GetInstance().Schedule(
+    //     new frc2::FunctionalCommand(
+    //         []() {},
+    //         [&]() {
+    //             g_arm.moveLimb(units::volt_t(con1.GetLeftY() * maxArmVoltage));
+    //         },
+    //         [](bool) {},
+    //         []() { return false; }
+    //     )
+    // );
     //input for driving the robot
     frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
         [&]() {}, //no initialization needs
@@ -33,6 +49,6 @@ void cb::configureButtonBindings() {
         },
         [&](bool) {}, //never ends
         [&]() { return false; }, //never ends
-        {} 
+        { &g_drivetrain } 
     ));
 }

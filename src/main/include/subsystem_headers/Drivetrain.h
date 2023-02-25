@@ -24,18 +24,18 @@ using ctre::phoenix::motorcontrol::ControlMode;
 using ctre::phoenix::motorcontrol::DemandType;
 
 namespace cb {
-    inline const frc::DifferentialDriveKinematics kDriveKinematics(kTrackwidthMeters);
+    inline const frc::DifferentialDriveKinematics kDriveKinematics { kTrackwidthMeters };
 
     class Drivetrain : public frc2::SubsystemBase {
     private:
-        WPI_TalonFX m_leftMaster { cb::LEFT_MASTER_ID };
-        WPI_TalonFX m_leftSlave { cb::LEFT_SLAVE_ID };
-        WPI_TalonFX m_rightMaster { cb::RIGHT_MASTER_ID };
-        WPI_TalonFX m_rightSlave { cb::RIGHT_SLAVE_ID };
+        WPI_TalonFX m_leftMaster { LEFT_MASTER_ID };
+        WPI_TalonFX m_leftSlave { LEFT_SLAVE_ID };
+        WPI_TalonFX m_rightMaster { RIGHT_MASTER_ID };
+        WPI_TalonFX m_rightSlave { RIGHT_SLAVE_ID };
 
         Faults m_faults;
 
-        const WPI_PigeonIMU m_gyro { cb::PIGEON_IMU_ID };
+        const WPI_PigeonIMU m_gyro { PIGEON_IMU_ID };
 
         frc::DifferentialDrive m_drive;
         frc::DifferentialDriveOdometry m_odometry;
@@ -50,6 +50,8 @@ namespace cb {
 
         double getLeftEncoder(); 
         double getRightEncoder(); 
+
+        const WPI_PigeonIMU& getGyro() const;
 
         bool leftEncoderOutOfPhase();
 
