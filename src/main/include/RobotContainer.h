@@ -23,6 +23,7 @@
 //auto commands
 #include "command_headers/DriveMeters.h"
 #include "command_headers/Climb.h"
+#include "command_headers/MoveToRamp.h"
 
 namespace cb {
     //the physical xbox controller, mapped to port 0
@@ -35,7 +36,7 @@ namespace cb {
 
     //Return XBox left stick for throttle control
     inline double getXBoxThrottle() {
-        return -1 * con1.GetLeftY() * kMaxDriveSpeed;
+        return con1.GetLeftY() * kMaxDriveSpeed;
     }
 
     //Return XBox right stick for rotational control

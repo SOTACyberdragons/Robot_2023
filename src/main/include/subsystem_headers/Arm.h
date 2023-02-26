@@ -23,5 +23,5 @@ namespace cb {
         Arm();
     };
 
-   //inline Arm g_arm;
+   inline Arm g_arm;
 }

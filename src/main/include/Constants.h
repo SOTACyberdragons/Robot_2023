@@ -60,7 +60,7 @@ namespace cb {
     inline constexpr units::meters_per_second_t kMaxSpeed = 2_mps;
     inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 1_mps_sq;
 
-    inline constexpr double maxArmVoltage = 5.5;
+    inline constexpr double maxArmVoltage = 2.5;
 
     //PID values for forward drivetrain commands
     inline constexpr double kPDrivetrain = 0.30565; //previously 1.0782
@@ -70,7 +70,8 @@ namespace cb {
     //voltage used to rotate the arm
     inline constexpr units::volt_t armVoltage = 1_V;
 
-    inline constexpr units::volt_t rampVoltage = 2_V;  // voltage for driving up the ramp
+    inline constexpr units::volt_t groundVoltage = 4_V; //voltage for driving on the ground
+    inline constexpr units::volt_t rampVoltage = 1.5_V;  // voltage for driving up the ramp
     inline constexpr units::volt_t topVoltage = 0.5_V; // voltage for when when robot is on top of community zone
 
     //TODO Angular robot characterization data
@@ -113,7 +114,7 @@ namespace cb {
 
     // XBox Controller Drivetrain Constants
     inline double kMaxDriveSpeed = 0.85;
-    inline double kMaxTurnSpeed = 0.85;
+    inline double kMaxTurnSpeed = 0.65;
 
     // Drivetrain wheel constants
     inline constexpr int kEncoderCPR = 2048;

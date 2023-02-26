@@ -1,10 +1,9 @@
 #include "subsystem_headers/Drivetrain.h"
 
 void cb::Drivetrain::Periodic() {
-    std::cout << "Right Master: " << m_rightMaster.GetSelectedSensorPosition() << std::endl;
-    std::cout << "Right Slave: " << m_rightSlave.GetSelectedSensorPosition() << std::endl;
-    std::cout << "Left Master: " << m_leftMaster.GetSelectedSensorPosition() << std::endl;
-    std::cout << "Left Slave: " << m_leftSlave.GetSelectedSensorPosition() << std::endl;
+    // static double lastRoll = m_gyro.GetRoll();
+    // std::cout << m_gyro.GetRoll() - lastRoll << std::endl;
+    // lastRoll = m_gyro.GetRoll();
 
     m_odometry.Update(getHeading(), units::meter_t(getLeftDistance()), units::meter_t(getRightDistance()));
 }
@@ -69,7 +68,8 @@ void cb::Drivetrain::resetOdometry(frc::Pose2d pose) {
 }
 
 void cb::Drivetrain::resetPosition() {
-    m_odometry.ResetPosition(frc::Rotation2d(0.0, 0.0), 0.0_m, 0.0_m, frc::Pose2d(0.0_m, 0.0_m, frc::Rotation2d(0.0, 0.0)));
+    m_odometry.ResetPosition(frc::Rotation2d(0.0, 0.0), 0.0_m, 0.0_m, 
+    frc::Pose2d(0.0_m, 0.0_m, frc::Rotation2d(0.0, 0.0)));
 }
 
 void cb::Drivetrain::arcadeDrive(double fwd, double rot) {
@@ -128,10 +128,10 @@ void cb::Drivetrain::resetTalons() {
     m_rightMaster.SetSelectedSensorPosition(0);
     m_rightSlave.SetSelectedSensorPosition(0);
 
-    m_leftMaster.SetInverted(false);
-    m_leftSlave.SetInverted(false);
-    m_rightMaster.SetInverted(true);
-    m_rightSlave.SetInverted(true);
+    m_leftMaster.SetInverted(true);
+    m_leftSlave.SetInverted(true);
+    m_rightMaster.SetInverted(false);
+    m_rightSlave.SetInverted(false);
 
     m_leftMaster.SetNeutralMode(NeutralMode::Coast);
     m_leftSlave.SetNeutralMode(NeutralMode::Coast);

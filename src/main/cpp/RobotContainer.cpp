@@ -1,7 +1,9 @@
 #include "RobotContainer.h"
 
 void cb::addAutoModeOptions() {
-    autoChooser.AddOption("Drive to ramp", new frc2::RamseteCommand(driveMeters(2.5146_m)));
+    autoChooser.AddOption("Drive and Climb", new frc2::SequentialCommandGroup(MoveToRamp(), Climb()));
+
+    autoChooser.AddOption("Climb", new Climb());
     frc::SmartDashboard::PutData("Autonomous Modes", &autoChooser);
 }
 
@@ -45,7 +47,7 @@ void cb::configureButtonBindings() {
     frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
         [&]() {}, //no initialization needs
         [&]() { //execution function
-            g_drivetrain.arcadeDrive(getXBoxThrottle(), getXBoxRotation()); 
+            g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
         },
         [&](bool) {}, //never ends
         [&]() { return false; }, //never ends

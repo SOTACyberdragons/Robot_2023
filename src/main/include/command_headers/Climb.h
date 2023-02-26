@@ -1,6 +1,5 @@
 #include <math.h>
 #include <chrono>
-#include <thread>
  
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/CommandBase.h>
@@ -11,13 +10,18 @@
 
 namespace cb
 {
+    using namespace std::chrono;
+    using namespace std::chrono_literals;
+
     class Climb
         : public frc2::CommandHelper<frc2::CommandBase, Climb>
     {
     private:
-        bool m_finished = false;
+        double m_deltaRoll = 0;
 
-        units::volt_t m_voltage = 3_V;
+        time_point<high_resolution_clock> m_startTime;
+
+        double m_lastRoll = 0.0;
 
         void Initialize() override;
         void Execute() override;
