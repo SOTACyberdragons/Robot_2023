@@ -51,22 +51,12 @@ namespace cb {
     inline constexpr int kPIDLoopIdx = 0;
     inline constexpr double kEncoderMaxSpeed = 33000;
 
-    //Feedforward robot characterization data
-    inline constexpr units::volt_t ksDrivetrain = 0.20887_V;
-    inline constexpr auto kvDrivetrain = 0.78157 * 1_V * 1_s / 1_m; //previously 0.71799
-    inline constexpr auto kaDrivetrain = 0.24367 * 1_V * 1_s * 1_s / 1_m;
-
     //Max speed and acceleration for drivetrain
     //inline constexpr units::meters_per_second_t kMaxSpeed = 2_mps;
     //inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 1_mps_sq;
 
     inline constexpr double maxArmVoltage = 2.5;
     inline constexpr double maxFeedForward = 1.5;
-
-    //PID values for forward drivetrain commands
-    inline constexpr double kPDrivetrain = 0.30565; //previously 1.0782
-    inline constexpr double kIDrivetrain = 0.3;
-    inline constexpr double kDDrivetrain = 0.0; //previously 0.43708
 
     //voltage used to rotate the arm
     inline constexpr units::volt_t armVoltage = 1_V;
@@ -75,11 +65,20 @@ namespace cb {
     inline constexpr units::volt_t rampVoltage = 1.5_V;  // voltage for driving up the ramp
     inline constexpr units::volt_t topVoltage = 0.5_V; // voltage for when when robot is on top of community zone
 
-    
-    //TODO Angular robot characterization data
-    inline constexpr double ksAngular = 0.7918;
-    inline constexpr double kvAngular = 0.0022871;
-    inline constexpr double kaAngular = 0.000113;
+    //Feedforward robot characterization data
+    inline constexpr units::volt_t ksDrivetrain = 0.24537_V;
+    inline constexpr auto kvDrivetrain = 0.74916 * 1_V * 1_s / 1_m; 
+    inline constexpr auto kaDrivetrain = 0.37692 * 1_V * 1_s * 1_s / 1_m;
+
+    //PID values for forward drivetrain commands
+    inline constexpr double kPDrivetrain = 0.30565; //previously 1.0782
+    inline constexpr double kIDrivetrain = 0.3;
+    inline constexpr double kDDrivetrain = 0.0; //previously 0.43708
+
+    //Angular robot characterization data
+    inline constexpr double ksAngular = 0.59266;
+    inline constexpr double kvAngular = 0.87714;
+    inline constexpr double kaAngular = 0.38704;
 
      //TODO PID values for angular drivetrain commands
     inline constexpr double kPAngular = 0.048135;
