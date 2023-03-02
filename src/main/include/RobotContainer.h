@@ -22,9 +22,9 @@
 #include "subsystem_headers/Arm.h"
 
 //auto commands
+#include "command_headers/PathplannerPaths.h"
 #include "command_headers/RamseteCommandUtil.h"
 #include "command_headers/Climb.h"
-
 
 namespace cb {
     //the physical xbox controller, mapped to port 0
@@ -50,6 +50,7 @@ namespace cb {
     void configureButtonBindings();
 
     void addAutoModeOptions();
+
     [[nodiscard]] frc2::Command* getSelectedAutoCommand();
 }
 

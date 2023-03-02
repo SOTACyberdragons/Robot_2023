@@ -1,6 +1,11 @@
 #include "RobotContainer.h"
 
 void cb::addAutoModeOptions() {
+    autoChooser.AddOption("Blue1_Left_Charge", 
+        new frc2::SequentialCommandGroup(
+           // ramseteCommand()
+        )
+    );
     autoChooser.AddOption("Climb", new Climb());
     frc::SmartDashboard::PutData("Autonomous Modes", &autoChooser);
 }
