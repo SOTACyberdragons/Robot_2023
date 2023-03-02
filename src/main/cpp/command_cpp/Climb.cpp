@@ -1,7 +1,6 @@
 #include "command_headers/Climb.h"
 
 void cb::Climb::Initialize() {
-    std::cout << "Climbing\n";
     AddRequirements(&g_drivetrain);
     m_lastRoll = g_drivetrain.getGyro().GetRoll();
     m_startTime = high_resolution_clock::now();

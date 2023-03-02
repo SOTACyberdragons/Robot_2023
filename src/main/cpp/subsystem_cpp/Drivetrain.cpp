@@ -9,7 +9,7 @@ void cb::Drivetrain::Periodic() {
 }
 
 frc::Rotation2d cb::Drivetrain::getHeading() {
-    double angle = m_gyro.GetFusedHeading();
+    double angle = m_gyro.GetYaw();
     double newAngle = remainder(angle, 360); //absolutely no reason to have const boolean for making it positive/negative
     return units::radian_t(newAngle * (pi/180)); //return newAngle in radians
 }
@@ -57,7 +57,7 @@ units::meter_t cb::Drivetrain::getRightDistance() {
     return static_cast<units::meter_t>(m_rightMaster.GetSelectedSensorPosition() * kEncoderDistancePerPulse);
 }
 
-const WPI_PigeonIMU& cb::Drivetrain::getGyro() const {
+const WPI_Pigeon2& cb::Drivetrain::getGyro() const {
     return m_gyro;
 }
 
@@ -85,7 +85,7 @@ void cb::Drivetrain::tankDriveVolts(units::volt_t leftVolts, units::volt_t right
 double cb::Drivetrain::getAngle() {
     double xyz_dps[3];
     m_gyro.GetRawGyro(xyz_dps);
-    return m_gyro.GetFusedHeading();
+    return m_gyro.GetYaw();
 }
 
 void cb::Drivetrain::setAngle(double angle) {

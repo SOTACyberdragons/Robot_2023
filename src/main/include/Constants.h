@@ -44,7 +44,7 @@ namespace cb {
     inline constexpr int LIMB_ID = 10;
 
     //pigeon ID
-    inline constexpr int PIGEON_IMU_ID = 8;
+    inline constexpr int PIGEON_ID = 8;
 
     //Talon FX configuration constants
     inline constexpr int kTimeoutMs = 30;
@@ -57,10 +57,11 @@ namespace cb {
     inline constexpr auto kaDrivetrain = 0.24367 * 1_V * 1_s * 1_s / 1_m;
 
     //Max speed and acceleration for drivetrain
-    inline constexpr units::meters_per_second_t kMaxSpeed = 2_mps;
-    inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 1_mps_sq;
+    //inline constexpr units::meters_per_second_t kMaxSpeed = 2_mps;
+    //inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 1_mps_sq;
 
     inline constexpr double maxArmVoltage = 2.5;
+    inline constexpr double maxFeedForward = 1.5;
 
     //PID values for forward drivetrain commands
     inline constexpr double kPDrivetrain = 0.30565; //previously 1.0782
@@ -122,7 +123,7 @@ namespace cb {
     inline constexpr double kWheelRadiusMeters = kWheelDiameterMeters / 2;
     inline constexpr double kGearRation = 7.6363;
     inline constexpr double kEncoderDistancePerPulse =
-            ((kWheelDiameterMeters * pi) / (double) kEncoderCPR) / kGearRation;
+            ((kWheelDiameterMeters * pi) / static_cast<double>(kEncoderCPR)) / kGearRation;
 }
 
 #endif

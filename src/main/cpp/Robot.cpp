@@ -30,7 +30,9 @@ void cb::Robot::TeleopInit() {
   configureButtonBindings(); //map buttons
 }
 
-void cb::Robot::TeleopPeriodic() {}
+void cb::Robot::TeleopPeriodic() {
+  
+}
 
 void cb::Robot::DisabledInit() {
   frc2::CommandScheduler::GetInstance().CancelAll(); //cancel all commands

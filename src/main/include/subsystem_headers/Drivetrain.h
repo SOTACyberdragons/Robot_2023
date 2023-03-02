@@ -2,6 +2,7 @@
 #define DRIVE_TRAIN
 
 #include <iostream>
+#include <math.h>
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/kinematics/DifferentialDriveOdometry.h>
@@ -10,15 +11,15 @@
 #include <frc/drive/DifferentialDrive.h>
 
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <ctre/phoenix/sensors/Pigeon2.h>
 #include <ctre/phoenix/motorcontrol/Faults.h>
-#include <ctre/phoenix/sensors/WPI_PigeonIMU.h>
-
+#include <ctre/phoenix/sensors/WPI_Pigeon2.h>
 #include "subsystem_headers/Drivetrain.h"
 #include "Constants.h"
 
 using ctre::phoenix::motorcontrol::can::WPI_TalonFX;
 using ctre::phoenix::motorcontrol::Faults;
-using ctre::phoenix::sensors::WPI_PigeonIMU;
+using ctre::phoenix::sensors::WPI_Pigeon2;
 using ctre::phoenix::motorcontrol::NeutralMode;
 using ctre::phoenix::motorcontrol::ControlMode;
 using ctre::phoenix::motorcontrol::DemandType;
@@ -35,7 +36,7 @@ namespace cb {
 
         Faults m_faults;
 
-        const WPI_PigeonIMU m_gyro { PIGEON_IMU_ID };
+        WPI_Pigeon2 m_gyro { PIGEON_ID };
 
         frc::DifferentialDrive m_drive;
         frc::DifferentialDriveOdometry m_odometry;
@@ -51,7 +52,7 @@ namespace cb {
         double getLeftEncoder(); 
         double getRightEncoder(); 
 
-        const WPI_PigeonIMU& getGyro() const;
+        const WPI_Pigeon2& getGyro() const;
 
         bool leftEncoderOutOfPhase();
 

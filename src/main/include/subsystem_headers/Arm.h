@@ -18,6 +18,8 @@ namespace cb {
         //true for on and false for off
         //void activateSolenoid(bool onOff);
         
+        const WPI_TalonFX& getMotor() const;
+
         void moveLimb(units::volt_t voltage);
 
         Arm();

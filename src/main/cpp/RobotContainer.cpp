@@ -1,8 +1,6 @@
 #include "RobotContainer.h"
 
 void cb::addAutoModeOptions() {
-    autoChooser.AddOption("Drive and Climb", new frc2::SequentialCommandGroup(MoveToRamp(), Climb()));
-
     autoChooser.AddOption("Climb", new Climb());
     frc::SmartDashboard::PutData("Autonomous Modes", &autoChooser);
 }
@@ -16,7 +14,6 @@ void cb::configureButtonBindings() {
         std::cout << "Pitch: " << g_drivetrain.getGyro().GetPitch() << std::endl;
         std::cout << "Roll: " << g_drivetrain.getGyro().GetRoll() << std::endl;
         std::cout << "Yaw: " << g_drivetrain.getGyro().GetYaw() << std::endl;
-        std::cout << "Fused Heading: " << g_drivetrain.getGyro().GetFusedHeading() << std::endl;
         std::cout << "Low Power Mode: " << lowPower << std::endl;
     }));
 
@@ -33,24 +30,26 @@ void cb::configureButtonBindings() {
         }
     ));
 
-    // frc2::CommandScheduler::GetInstance().Schedule(
-    //     new frc2::FunctionalCommand(
-    //         []() {},
-    //         [&]() {
-    //             g_arm.moveLimb(units::volt_t(con1.GetLeftY() * maxArmVoltage));
-    //         },
-    //         [](bool) {},
-    //         []() { return false; }
-    //     )
-    // );
+    frc2::CommandScheduler::GetInstance().Schedule(
+        new frc2::FunctionalCommand(
+            []() {},
+            [&]() {
+                double leftY = con1.GetLeftY();
+                double feedForward = sin(leftY);
+                g_arm.moveLimb(units::volt_t((leftY * maxArmVoltage) + (feedForward * maxFeedForward)));
+            },
+            [](bool) {},
+            []() { return false; }
+        )
+    );
     //input for driving the robot
-    frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
-        [&]() {}, //no initialization needs
-        [&]() { //execution function
-            g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
-        },
-        [&](bool) {}, //never ends
-        [&]() { return false; }, //never ends
-        { &g_drivetrain } 
-    ));
+    // frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
+    //     [&]() {}, //no initialization needs
+    //     [&]() { //execution function
+    //         g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
+    //     },
+    //     [&](bool) {}, //never ends
+    //     [&]() { return false; }, //never ends
+    //     { &g_drivetrain } 
+    // ));
 }

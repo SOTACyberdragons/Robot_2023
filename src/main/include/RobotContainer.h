@@ -2,6 +2,7 @@
 #define ROBOT_CONTAINER
 
 #include <memory>
+#include <math.h>
 
 #include <frc2/command/Command.h>
 #include <frc2/command/InstantCommand.h>
@@ -21,9 +22,9 @@
 #include "subsystem_headers/Arm.h"
 
 //auto commands
-#include "command_headers/DriveMeters.h"
+#include "command_headers/RamseteCommandUtil.h"
 #include "command_headers/Climb.h"
-#include "command_headers/MoveToRamp.h"
+
 
 namespace cb {
     //the physical xbox controller, mapped to port 0
