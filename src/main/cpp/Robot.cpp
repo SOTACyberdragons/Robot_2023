@@ -7,6 +7,8 @@
 void cb::Robot::RobotInit() {
   std::cout << "Vader initializing\n";
 
+  g_arm.resetPosition();
+
   addAutoModeOptions();
 }
 
@@ -24,7 +26,9 @@ void cb::Robot::AutonomousInit() {
 
 void cb::Robot::AutonomousPeriodic() {}
 
-void cb::Robot::AutonomousExit() {}
+void cb::Robot::AutonomousExit() {
+  g_drivetrain.tankDriveVolts(0_V, 0_V);
+}
 
 void cb::Robot::TeleopInit() {
   configureButtonBindings(); //map buttons

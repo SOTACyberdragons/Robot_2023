@@ -1,3 +1,6 @@
+#ifndef ARM
+#define ARM
+
 #include <iostream>
 
 #include <frc2/command/SubsystemBase.h>
@@ -23,9 +26,13 @@ namespace cb {
     public:
         //true for on and false for off
         //void activateSolenoid(bool onOff);
+
+        void resetPosition();
         
         const WPI_TalonFX& getMotor() const;
+        double getSensorPos();
 
+        //positive voltage for going up, negative for going down
         void moveLimb(units::volt_t voltage);
 
         Arm();
@@ -33,3 +40,5 @@ namespace cb {
 
    inline Arm g_arm;
 }
+
+#endif

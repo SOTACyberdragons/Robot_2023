@@ -18,12 +18,12 @@
 
 //subsystems
 #include "subsystem_headers/Drivetrain.h"
-#include "subsystem_headers/VisionProcessor.h"
 #include "subsystem_headers/Arm.h"
 
 //auto commands
 #include "command_headers/PathplannerPaths.h"
 #include "command_headers/RamseteCommandUtil.h"
+#include "command_headers/MoveArm.h"
 #include "command_headers/Climb.h"
 
 namespace cb {
@@ -32,8 +32,7 @@ namespace cb {
 
     static const frc2::Trigger controllerX;
 
-    static bool lowPower = false; //toggles low/high speed for drivetrain voltage
-    static bool previouslyStoppedArm = false;
+    inline bool lowPower = false; //toggles low/high speed for drivetrain voltage
 
     //Return XBox left stick for throttle control
     inline double getXBoxThrottle() {

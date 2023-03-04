@@ -1,12 +1,19 @@
 #include "RobotContainer.h"
 
 void cb::addAutoModeOptions() {
-    autoChooser.AddOption("Blue1_Left_Charge", 
+    autoChooser.AddOption("Test", 
         new frc2::SequentialCommandGroup(
-           // ramseteCommand()
+           ramseteCommand(loadPath(PathName::TEST, 0.3_mps, 0.3_mps_sq))
         )
     );
+    autoChooser.AddOption("Blue1_Left_Charge", 
+        new frc2::SequentialCommandGroup(
+            ramseteCommand(loadPath(PathName::BLUE1_LEFT_CHARGE, 0.3_mps, 0.3_mps_sq))
+        )
+    );
+
     autoChooser.AddOption("Climb", new Climb());
+    
     frc::SmartDashboard::PutData("Autonomous Modes", &autoChooser);
 }
 
@@ -20,6 +27,12 @@ void cb::configureButtonBindings() {
         std::cout << "Roll: " << g_drivetrain.getGyro().GetRoll() << std::endl;
         std::cout << "Yaw: " << g_drivetrain.getGyro().GetYaw() << std::endl;
         std::cout << "Low Power Mode: " << lowPower << std::endl;
+    }));
+
+    con1.LeftTrigger().OnTrue(new MoveArm());
+    con1.LeftBumper().OnTrue(new frc2::InstantCommand([]() {
+        g_arm.resetPosition();
+        std::cout << "New position: " << g_arm.getSensorPos() << std::endl;
     }));
 
     con1.A().OnTrue(new frc2::InstantCommand(
@@ -39,9 +52,7 @@ void cb::configureButtonBindings() {
         new frc2::FunctionalCommand(
             []() {},
             [&]() {
-                double leftY = con1.GetLeftY();
-                double feedForward = sin(leftY);
-                g_arm.moveLimb(units::volt_t((leftY * maxArmVoltage) + (feedForward * maxFeedForward)));
+                g_arm.moveLimb(units::volt_t(con1.GetLeftY() * maxArmVoltage));
             },
             [](bool) {},
             []() { return false; }
@@ -53,8 +64,8 @@ void cb::configureButtonBindings() {
     //     [&]() { //execution function
     //         g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
     //     },
-    //     [&](bool) {}, //never ends
-    //     [&]() { return false; }, //never ends
+    //     [](bool) {}, //never ends
+    //     []() { return false; }, //never ends
     //     { &g_drivetrain } 
     // ));
 }

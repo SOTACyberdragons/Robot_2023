@@ -18,10 +18,15 @@ namespace cb
     {
     private:
         double m_deltaRoll = 0;
-
-        time_point<high_resolution_clock> m_startTime;
-
         double m_lastRoll = 0.0;
+
+        bool m_onRamp = false;
+        bool m_isFinished = false;
+
+        units::volt_t m_voltage = 0_V;
+
+        //Point in time when robot moved onto the ramp
+        time_point<high_resolution_clock> m_rampTime;
 
         void Initialize() override;
         void Execute() override;

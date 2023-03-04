@@ -6,9 +6,10 @@ namespace cb {
     enum class PathName {
         BLUE1_LEFT_CHARGE,
         BLUE3_RIGHT_CHARGE,
-        RED4_LEFT_CHARGE
+        RED4_LEFT_CHARGE,
+        TEST
     };
 
-    frc::Trajectory loadPathplannerPath(PathName path, 
-        units::meters_per_second_t maxAcceleration, units::meters_per_second_squared_t maxVelocity);
+    frc::Trajectory loadPath(PathName path, 
+        units::meters_per_second_t maxAccel, units::meters_per_second_squared_t maxVel);
 }
