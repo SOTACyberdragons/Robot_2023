@@ -43,6 +43,7 @@ namespace cb {
 
         virtual void Periodic() override;
     public:
+        //returns negative velocity for going forward, positive velocity for going backward
         frc::DifferentialDriveWheelSpeeds getWheelSpeeds();
 
         double getWheelRPM(); 

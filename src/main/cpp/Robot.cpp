@@ -7,6 +7,8 @@
 void cb::Robot::RobotInit() {
   std::cout << "Vader initializing\n";
 
+  g_arm.resetPosition();
+
   addAutoModeOptions();
 }
 
@@ -24,10 +26,15 @@ void cb::Robot::AutonomousInit() {
 
 void cb::Robot::AutonomousPeriodic() {}
 
-void cb::Robot::AutonomousExit() {}
+void cb::Robot::AutonomousExit() {
+  if (m_autoCommand != nullptr) {
+    m_autoCommand->Cancel();
+  }
+}
 
 void cb::Robot::TeleopInit() {
   configureButtonBindings(); //map buttons
+
 }
 
 void cb::Robot::TeleopPeriodic() {

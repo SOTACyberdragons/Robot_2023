@@ -55,15 +55,15 @@ namespace cb {
     //inline constexpr units::meters_per_second_t kMaxSpeed = 2_mps;
     //inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 1_mps_sq;
 
+    //manual arm moving constants
     inline constexpr double maxArmVoltage = 2.5;
     inline constexpr double maxFeedForward = 1.5;
 
     //voltage used to rotate the arm
-    inline constexpr units::volt_t armVoltage = 1_V;
+    inline constexpr units::volt_t autoArmVoltage = 5_V;
 
-    inline constexpr units::volt_t groundVoltage = 4_V; //voltage for driving on the ground
-    inline constexpr units::volt_t rampVoltage = 1.5_V;  // voltage for driving up the ramp
-    inline constexpr units::volt_t topVoltage = 0.5_V; // voltage for when when robot is on top of community zone
+    inline constexpr units::volt_t toRampVoltage = 2_V;
+    inline constexpr units::volt_t onRampVoltage = 1.35_V;
 
     //Feedforward robot characterization data
     inline constexpr units::volt_t ksDrivetrain = 0.24537_V;
@@ -71,8 +71,8 @@ namespace cb {
     inline constexpr auto kaDrivetrain = 0.37692 * 1_V * 1_s * 1_s / 1_m;
 
     //PID values for forward drivetrain commands
-    inline constexpr double kPDrivetrain = 0.30565; //previously 1.0782
-    inline constexpr double kIDrivetrain = 0.3;
+    inline constexpr double kPDrivetrain = 0.001; //previously 1.0782
+    inline constexpr double kIDrivetrain = 0.00003;
     inline constexpr double kDDrivetrain = 0.0; //previously 0.43708
 
     //Angular robot characterization data
@@ -80,7 +80,7 @@ namespace cb {
     inline constexpr double kvAngular = 0.87714;
     inline constexpr double kaAngular = 0.38704;
 
-     //TODO PID values for angular drivetrain commands
+    //TODO PID values for angular drivetrain commands
     inline constexpr double kPAngular = 0.048135;
     inline constexpr double kIAngular = 0.0;
     inline constexpr double kDAngular = 0.00082831;

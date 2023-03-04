@@ -18,8 +18,7 @@ frc2::RamseteCommand cb::ramseteCommand(units::meter_t meters)
 
     frc::Pose2d robotPosition = g_drivetrain.getPose();
     units::meter_t x = robotPosition.X(), y = robotPosition.Y();
-
-    // An example trajectory to follow.  All units in meters.
+    
     auto trajectory = frc::TrajectoryGenerator::GenerateTrajectory(
         frc::Pose2d(x, y, frc::Rotation2d(0_deg)), //startpoint
         {}, //no interior waypoints
@@ -33,8 +32,8 @@ frc2::RamseteCommand cb::ramseteCommand(units::meter_t meters)
         frc::SimpleMotorFeedforward<units::meters>(ksDrivetrain, kvDrivetrain, kaDrivetrain),
         kDriveKinematics,
         [&]() { return g_drivetrain.getWheelSpeeds(); },
-        frc2::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
-        frc2::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
+        frc::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
+        frc::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
         [&](units::volt_t left, units::volt_t right) { g_drivetrain.tankDriveVolts(left, right); },
         {&g_drivetrain}
     );
@@ -48,8 +47,8 @@ frc2::RamseteCommand cb::ramseteCommand(frc::Trajectory trajectory) {
         frc::SimpleMotorFeedforward<units::meters>(ksDrivetrain, kvDrivetrain, kaDrivetrain),
         kDriveKinematics,
         [&]() { return g_drivetrain.getWheelSpeeds(); },
-        frc2::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
-        frc2::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
+        frc::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
+        frc::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
         [&](units::volt_t left, units::volt_t right) { g_drivetrain.tankDriveVolts(left, right); },
         {&g_drivetrain}
     );

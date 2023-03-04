@@ -10,31 +10,32 @@ void cb::Arm::Periodic() {
     // }
 }
 
+units::volt_t cb::Arm::feedForward() {
+    double degreeAngle = m_limb.GetSelectedSensorPosition() / 69.45;
+    double radianAngle = (degreeAngle * pi) / 180;
+
+    return units::volt_t(sin(radianAngle));
+}
+
 cb::Arm::Arm() {
     m_limb.SetInverted(true);
+    m_limb.SetSelectedSensorPosition(0);
 }
 
 const WPI_TalonFX& cb::Arm::getMotor() const {
     return m_limb;
 }
+ 
+double cb::Arm::getSensorPos() {
+    return m_limb.GetSelectedSensorPosition();
+}
 
-//positive voltage for going up, negative for going down
+void cb::Arm::resetPosition() {
+    m_limb.SetSelectedSensorPosition(0);
+}
+
 void cb::Arm::moveLimb(units::volt_t voltage) {
-    static bool stopped = false;
-    
-    if (stopped && voltage < -0.5_V) {
-        m_limb.SetVoltage(0_V);
-        return;
-    }
-      
-    //if we are moving the arm down check for hard stop
-    if (voltage < -0.5_V && m_limb.GetSelectedSensorPosition() < -261406) { 
-        m_limb.SetVoltage(0_V);
-        stopped = true;
-        return;
-    } 
+    std::cout << m_limb.GetSelectedSensorPosition() << std::endl;
 
-    stopped = false;
-    
-    m_limb.SetVoltage(voltage);
+    m_limb.SetVoltage(voltage + feedForward());
 }

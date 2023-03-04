@@ -1,12 +1,22 @@
 #include "RobotContainer.h"
 
 void cb::addAutoModeOptions() {
-    autoChooser.AddOption("Blue1_Left_Charge", 
+    autoChooser.AddOption("Test", 
         new frc2::SequentialCommandGroup(
-           // ramseteCommand()
+           ramseteCommand(loadPath(PathName::TEST, 0.3_mps, 0.3_mps_sq)), Climb(), StayBalanced()
         )
     );
-    autoChooser.AddOption("Climb", new Climb());
+    autoChooser.AddOption("Blue1_Left_Charge", 
+        new frc2::SequentialCommandGroup(
+            ramseteCommand(loadPath(PathName::BLUE1_LEFT_CHARGE, 0.3_mps, 0.3_mps_sq)), Climb(), StayBalanced()
+        )
+    );
+
+    autoChooser.AddOption("Climb", 
+        new frc2::SequentialCommandGroup(Climb(), StayBalanced()));
+
+    autoChooser.AddOption("Stay Balanced", new StayBalanced());
+    
     frc::SmartDashboard::PutData("Autonomous Modes", &autoChooser);
 }
 
@@ -22,6 +32,12 @@ void cb::configureButtonBindings() {
         std::cout << "Low Power Mode: " << lowPower << std::endl;
     }));
 
+    con1.LeftTrigger().OnTrue(new MoveArm());
+    con1.LeftBumper().OnTrue(new frc2::InstantCommand([]() {
+        g_arm.resetPosition();
+        std::cout << "New position: " << g_arm.getSensorPos() << std::endl;
+    }));
+
     con1.A().OnTrue(new frc2::InstantCommand(
         []() {
             lowPower = !lowPower; //toggle low power mode for drivetrain motors
@@ -35,26 +51,24 @@ void cb::configureButtonBindings() {
         }
     ));
 
-    frc2::CommandScheduler::GetInstance().Schedule(
-        new frc2::FunctionalCommand(
-            []() {},
-            [&]() {
-                double leftY = con1.GetLeftY();
-                double feedForward = sin(leftY);
-                g_arm.moveLimb(units::volt_t((leftY * maxArmVoltage) + (feedForward * maxFeedForward)));
-            },
-            [](bool) {},
-            []() { return false; }
-        )
-    );
+    // frc2::CommandScheduler::GetInstance().Schedule(
+    //     new frc2::FunctionalCommand(
+    //         []() {},
+    //         [&]() {
+    //             g_arm.moveLimb(units::volt_t(con1.GetLeftY() * maxArmVoltage));
+    //         },
+    //         [](bool) {},
+    //         []() { return false; }
+    //     )
+    // );
     //input for driving the robot
-    // frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
-    //     [&]() {}, //no initialization needs
-    //     [&]() { //execution function
-    //         g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
-    //     },
-    //     [&](bool) {}, //never ends
-    //     [&]() { return false; }, //never ends
-    //     { &g_drivetrain } 
-    // ));
+    frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
+        [&]() {}, //no initialization needs
+        [&]() { //execution function
+            g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
+        },
+        [](bool) {}, //never ends
+        []() { return false; }, //never ends
+        { &g_drivetrain } 
+    ));
 }

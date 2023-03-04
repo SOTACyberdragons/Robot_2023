@@ -4,6 +4,7 @@ void cb::Drivetrain::Periodic() {
     // static double lastRoll = m_gyro.GetRoll();
     // std::cout << m_gyro.GetRoll() - lastRoll << std::endl;
     // lastRoll = m_gyro.GetRoll();
+    //std::cout << getWheelSpeeds().right.to<double>() << std::endl;
 
     m_odometry.Update(getHeading(), units::meter_t(getLeftDistance()), units::meter_t(getRightDistance()));
 }
