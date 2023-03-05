@@ -62,13 +62,8 @@ namespace cb {
     //voltage used to rotate the arm
     inline constexpr units::volt_t autoArmVoltage = 5_V;
 
-<<<<<<< HEAD
     inline constexpr units::volt_t toRampVoltage = 2_V;
     inline constexpr units::volt_t onRampVoltage = 1.35_V;
-=======
-    inline constexpr units::volt_t toRampVoltage = 4_V;
-    inline constexpr units::volt_t onRampVoltage = 1_V;
->>>>>>> 658096c3e1fe0d16c25514170a2627d8b61df4f3
 
     //Feedforward robot characterization data
     inline constexpr units::volt_t ksDrivetrain = 0.24537_V;

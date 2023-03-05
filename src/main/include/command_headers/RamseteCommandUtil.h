@@ -20,8 +20,4 @@ namespace cb {
     frc2::RamseteCommand ramseteCommand(units::meter_t meters);
 
     frc2::RamseteCommand ramseteCommand(frc::Trajectory trajectory);
-
-    inline frc::PIDController g_PIDController { 
-        std::ref(sKPDrivetrain), std::ref(sKIDrivetrain), std::ref(sKDDrivetrain) 
-    };
 }
