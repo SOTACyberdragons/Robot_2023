@@ -62,8 +62,13 @@ namespace cb {
     //voltage used to rotate the arm
     inline constexpr units::volt_t autoArmVoltage = 5_V;
 
+<<<<<<< HEAD
     inline constexpr units::volt_t toRampVoltage = 2_V;
     inline constexpr units::volt_t onRampVoltage = 1.35_V;
+=======
+    inline constexpr units::volt_t toRampVoltage = 4_V;
+    inline constexpr units::volt_t onRampVoltage = 1_V;
+>>>>>>> 658096c3e1fe0d16c25514170a2627d8b61df4f3
 
     //Feedforward robot characterization data
     inline constexpr units::volt_t ksDrivetrain = 0.24537_V;
@@ -74,6 +79,11 @@ namespace cb {
     inline constexpr double kPDrivetrain = 0.001; //previously 1.0782
     inline constexpr double kIDrivetrain = 0.00003;
     inline constexpr double kDDrivetrain = 0.0; //previously 0.43708
+
+    //PID values that are tunable from smartdashboard
+    inline double sKPDrivetrain = 0.001;
+    inline double sKIDrivetrain = 0.00003;
+    inline double sKDDrivetrain = 0.0;
 
     //Angular robot characterization data
     inline constexpr double ksAngular = 0.59266;

@@ -10,7 +10,10 @@
 #include "Constants.h"
 
 namespace cb {
+<<<<<<< HEAD
     //Move arm to the setpoint 0
+=======
+>>>>>>> 658096c3e1fe0d16c25514170a2627d8b61df4f3
     class MoveArm 
         : public frc2::CommandHelper<frc2::CommandBase, MoveArm>
     {

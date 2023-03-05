@@ -27,9 +27,13 @@ void cb::Robot::AutonomousInit() {
 void cb::Robot::AutonomousPeriodic() {}
 
 void cb::Robot::AutonomousExit() {
+<<<<<<< HEAD
   if (m_autoCommand != nullptr) {
     m_autoCommand->Cancel();
   }
+=======
+  g_drivetrain.tankDriveVolts(0_V, 0_V);
+>>>>>>> 658096c3e1fe0d16c25514170a2627d8b61df4f3
 }
 
 void cb::Robot::TeleopInit() {

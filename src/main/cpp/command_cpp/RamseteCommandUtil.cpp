@@ -32,8 +32,13 @@ frc2::RamseteCommand cb::ramseteCommand(units::meter_t meters)
         frc::SimpleMotorFeedforward<units::meters>(ksDrivetrain, kvDrivetrain, kaDrivetrain),
         kDriveKinematics,
         [&]() { return g_drivetrain.getWheelSpeeds(); },
+<<<<<<< HEAD
         frc::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
         frc::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
+=======
+        std::ref(g_PIDController),
+        std::ref(g_PIDController),
+>>>>>>> 658096c3e1fe0d16c25514170a2627d8b61df4f3
         [&](units::volt_t left, units::volt_t right) { g_drivetrain.tankDriveVolts(left, right); },
         {&g_drivetrain}
     );
@@ -47,8 +52,13 @@ frc2::RamseteCommand cb::ramseteCommand(frc::Trajectory trajectory) {
         frc::SimpleMotorFeedforward<units::meters>(ksDrivetrain, kvDrivetrain, kaDrivetrain),
         kDriveKinematics,
         [&]() { return g_drivetrain.getWheelSpeeds(); },
+<<<<<<< HEAD
         frc::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
         frc::PIDController(kPDrivetrain, kIDrivetrain, kDDrivetrain),
+=======
+        std::ref(g_PIDController),
+        std::ref(g_PIDController),
+>>>>>>> 658096c3e1fe0d16c25514170a2627d8b61df4f3
         [&](units::volt_t left, units::volt_t right) { g_drivetrain.tankDriveVolts(left, right); },
         {&g_drivetrain}
     );

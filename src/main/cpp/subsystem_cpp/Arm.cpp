@@ -37,5 +37,12 @@ void cb::Arm::resetPosition() {
 void cb::Arm::moveLimb(units::volt_t voltage) {
     std::cout << m_limb.GetSelectedSensorPosition() << std::endl;
 
+<<<<<<< HEAD
     m_limb.SetVoltage(voltage + feedForward());
+=======
+    units::volt_t feedForward = 
+        units::volt_t(0.2 * sin(((m_limb.GetSelectedSensorPosition() * pi) / 180)));
+
+    m_limb.SetVoltage(voltage);
+>>>>>>> 658096c3e1fe0d16c25514170a2627d8b61df4f3
 }

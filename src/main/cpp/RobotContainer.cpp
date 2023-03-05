@@ -3,11 +3,16 @@
 void cb::addAutoModeOptions() {
     autoChooser.AddOption("Test", 
         new frc2::SequentialCommandGroup(
+<<<<<<< HEAD
            ramseteCommand(loadPath(PathName::TEST, 0.3_mps, 0.3_mps_sq)), Climb(), StayBalanced()
+=======
+           ramseteCommand(loadPath(PathName::TEST, 0.3_mps, 0.3_mps_sq))
+>>>>>>> 658096c3e1fe0d16c25514170a2627d8b61df4f3
         )
     );
     autoChooser.AddOption("Blue1_Left_Charge", 
         new frc2::SequentialCommandGroup(
+<<<<<<< HEAD
             ramseteCommand(loadPath(PathName::BLUE1_LEFT_CHARGE, 0.3_mps, 0.3_mps_sq)), Climb(), StayBalanced()
         )
     );
@@ -16,6 +21,13 @@ void cb::addAutoModeOptions() {
         new frc2::SequentialCommandGroup(Climb(), StayBalanced()));
 
     autoChooser.AddOption("Stay Balanced", new StayBalanced());
+=======
+            ramseteCommand(loadPath(PathName::BLUE1_LEFT_CHARGE, 0.3_mps, 0.3_mps_sq))
+        )
+    );
+
+    autoChooser.AddOption("Climb", new Climb());
+>>>>>>> 658096c3e1fe0d16c25514170a2627d8b61df4f3
     
     frc::SmartDashboard::PutData("Autonomous Modes", &autoChooser);
 }
@@ -51,6 +63,7 @@ void cb::configureButtonBindings() {
         }
     ));
 
+<<<<<<< HEAD
     // frc2::CommandScheduler::GetInstance().Schedule(
     //     new frc2::FunctionalCommand(
     //         []() {},
@@ -71,4 +84,26 @@ void cb::configureButtonBindings() {
         []() { return false; }, //never ends
         { &g_drivetrain } 
     ));
+=======
+    frc2::CommandScheduler::GetInstance().Schedule(
+        new frc2::FunctionalCommand(
+            []() {},
+            [&]() {
+                g_arm.moveLimb(units::volt_t(con1.GetLeftY() * maxArmVoltage));
+            },
+            [](bool) {},
+            []() { return false; }
+        )
+    );
+    //input for driving the robot
+    // frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
+    //     [&]() {}, //no initialization needs
+    //     [&]() { //execution function
+    //         g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
+    //     },
+    //     [](bool) {}, //never ends
+    //     []() { return false; }, //never ends
+    //     { &g_drivetrain } 
+    // ));
+>>>>>>> 658096c3e1fe0d16c25514170a2627d8b61df4f3
 }
