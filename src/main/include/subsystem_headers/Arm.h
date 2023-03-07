@@ -15,6 +15,7 @@
 #include "Constants.h"
 
 using ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+using ctre::phoenix::motorcontrol::NeutralMode;
 
 namespace cb {
     class Arm : public frc2::SubsystemBase {
@@ -25,7 +26,7 @@ namespace cb {
 
         void Periodic() override;
 
-        units::volt_t feedForward();
+        double feedForward();
     public:
         //true for on and false for off
         //void activateSolenoid(bool onOff);
@@ -36,7 +37,7 @@ namespace cb {
         double getSensorPos();
 
         //positive voltage for going up, negative for going down
-        void moveLimb(units::volt_t voltage);
+        void moveLimb(double voltage);
 
         Arm();
     };

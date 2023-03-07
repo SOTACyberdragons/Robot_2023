@@ -43,6 +43,8 @@ namespace cb {
     //limb motor ID
     inline constexpr int LIMB_ID = 10;
 
+    inline constexpr int ARM_INTAKE_ID = 13;
+
     //pigeon ID
     inline constexpr int PIGEON_ID = 8;
 
@@ -56,11 +58,11 @@ namespace cb {
     //inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 1_mps_sq;
 
     //manual arm moving constants
-    inline constexpr double maxArmVoltage = 2.5;
-    inline constexpr double maxFeedForward = 1.5;
+    inline constexpr double maxArmVoltage = 0.2;
+    inline constexpr double maxFeedForward = 0.2;
 
     //voltage used to rotate the arm
-    inline constexpr units::volt_t autoArmVoltage = 5_V;
+    inline constexpr double autoArmVoltage = 0.5;
 
     inline constexpr units::volt_t toRampVoltage = 2_V;
     inline constexpr units::volt_t onRampVoltage = 1.35_V;
@@ -129,6 +131,10 @@ namespace cb {
     inline constexpr double kGearRation = 7.6363;
     inline constexpr double kEncoderDistancePerPulse =
             ((kWheelDiameterMeters * pi) / static_cast<double>(kEncoderCPR)) / kGearRation;
+
+    //Arm constants
+    inline constexpr double kArmGearReduction = 176.8;
+    inline constexpr double fullRotation = 312875;
 }
 
 #endif

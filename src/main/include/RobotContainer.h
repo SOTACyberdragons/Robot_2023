@@ -19,6 +19,7 @@
 //subsystems
 #include "subsystem_headers/Drivetrain.h"
 #include "subsystem_headers/Arm.h"
+#include "subsystem_headers/ArmIntake.h"
 
 //auto commands
 #include "command_headers/PathplannerPaths.h"

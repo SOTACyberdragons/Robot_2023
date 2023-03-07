@@ -1,4 +1,5 @@
 #include "RobotContainer.h"
+#include <functional>
 
 void cb::addAutoModeOptions() {
     autoChooser.AddOption("Test", 
@@ -51,24 +52,35 @@ void cb::configureButtonBindings() {
         }
     ));
 
-    // frc2::CommandScheduler::GetInstance().Schedule(
-    //     new frc2::FunctionalCommand(
-    //         []() {},
-    //         [&]() {
-    //             g_arm.moveLimb(units::volt_t(con1.GetLeftY() * maxArmVoltage));
-    //         },
-    //         [](bool) {},
-    //         []() { return false; }
-    //     )
-    // );
+    frc2::CommandScheduler::GetInstance().Schedule(
+        new frc2::FunctionalCommand(
+            []() {},
+            [&]() {
+                g_arm.moveLimb(con1.GetLeftY());
+            },
+            [](bool) {},
+            []() { return false; }
+        )
+    );
+    
+    frc2::CommandScheduler::GetInstance().Schedule(
+        new frc2::FunctionalCommand(
+            []() {},
+            []() {
+                g_armIntake.grab(con1.GetRightY());
+            },
+            [](bool) {},
+            []() { return false; }
+        )
+    );
     //input for driving the robot
-    frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
-        [&]() {}, //no initialization needs
-        [&]() { //execution function
-            g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
-        },
-        [](bool) {}, //never ends
-        []() { return false; }, //never ends
-        { &g_drivetrain } 
-    ));
+    // frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
+    //     [&]() {}, //no initialization needs
+    //     [&]() { //execution function
+    //         g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
+    //     },
+    //     [](bool) {}, //never ends
+    //     []() { return false; }, //never ends
+    //     { &g_drivetrain } 
+    // ));
 }

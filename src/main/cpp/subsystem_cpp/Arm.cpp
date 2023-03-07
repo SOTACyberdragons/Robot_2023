@@ -10,22 +10,23 @@ void cb::Arm::Periodic() {
     // }
 }
 
-units::volt_t cb::Arm::feedForward() {
-    double degreeAngle = m_limb.GetSelectedSensorPosition() / 69.45;
+double cb::Arm::feedForward() {
+    double degreeAngle = m_limb.GetSelectedSensorPosition() / 968.1454;
+    //std::cout << degreeAngle << std::endl;
     double radianAngle = (degreeAngle * pi) / 180;
 
-    return units::volt_t(sin(radianAngle));
+    return sin(radianAngle) * -0.4;
 }
 
 cb::Arm::Arm() {
-    m_limb.SetInverted(true);
     m_limb.SetSelectedSensorPosition(0);
+    m_limb.SetNeutralMode(NeutralMode::Brake);
 }
 
 const WPI_TalonFX& cb::Arm::getMotor() const {
     return m_limb;
 }
- 
+
 double cb::Arm::getSensorPos() {
     return m_limb.GetSelectedSensorPosition();
 }
@@ -34,8 +35,11 @@ void cb::Arm::resetPosition() {
     m_limb.SetSelectedSensorPosition(0);
 }
 
-void cb::Arm::moveLimb(units::volt_t voltage) {
-    std::cout << m_limb.GetSelectedSensorPosition() << std::endl;
-
-    m_limb.SetVoltage(voltage + feedForward());
+void cb::Arm::moveLimb(double voltage) {
+    //std::cout << m_limb.GetSelectedSensorPosition() << std::endl;
+    if (voltage >= -0.05 && voltage <= 0.05) {
+        m_limb.Set(0);
+    } else {
+        m_limb.Set(voltage * 0.3);
+    }
 }
