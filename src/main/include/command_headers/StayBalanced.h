@@ -15,7 +15,15 @@ namespace cb {
         : public frc2::CommandHelper<frc2::CommandBase, StayBalanced>
     {
     private:
-        time_point<high_resolution_clock> m_startTime;
+        enum class State {
+            ADJUSTING_FORWARD,
+            ADJUSTING_BACK,
+            NONE
+        };
+
+        State m_state = State::NONE;
+
+        time_point<high_resolution_clock> m_lastTime;
 
         void Initialize() override;
         void Execute() override;

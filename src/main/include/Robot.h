@@ -13,10 +13,12 @@
 
 #include "RobotContainer.h"
 
-namespace cb {
-  class Robot : public frc::TimedRobot {
+namespace cb
+{
+  class Robot : public frc::TimedRobot
+  {
   private:
-    frc2::Command* m_autoCommand = nullptr;
+    frc2::Command *m_autoCommand = nullptr;
   public:
     void RobotInit() override;
     void RobotPeriodic() override;
@@ -31,5 +33,5 @@ namespace cb {
     void TestPeriodic() override;
     void SimulationInit() override;
     void SimulationPeriodic() override;
-};
+  };
 }

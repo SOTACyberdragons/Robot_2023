@@ -20,6 +20,7 @@
 #include "subsystem_headers/Drivetrain.h"
 #include "subsystem_headers/Arm.h"
 #include "subsystem_headers/ArmIntake.h"
+#include "subsystem_headers/FrontIntake.h"
 
 //auto commands
 #include "command_headers/PathplannerPaths.h"
@@ -27,6 +28,7 @@
 #include "command_headers/MoveArm.h"
 #include "command_headers/Climb.h"
 #include "command_headers/StayBalanced.h"
+#include "command_headers/ToggleFrontIntake.h"
 
 namespace cb {
     //the physical xbox controller, mapped to port 0

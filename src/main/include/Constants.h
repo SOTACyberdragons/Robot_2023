@@ -26,13 +26,14 @@ namespace cb {
     inline constexpr int RIGHT_MASTER_ID = 6;
     inline constexpr int RIGHT_SLAVE_ID = 3;
 
-    //shooter motors
-    inline constexpr int LEFT_SHOOTER_MOTOR_ID = 4;
-    inline constexpr int RIGHT_SHOOTER_MOTOR_ID = 5;
+    inline constexpr int FRONT_INTAKE_TALON_FX_ID = 12;
+    inline constexpr int FRONT_INTAKE_TALON_SRX_ID = 15;
 
-    //robot intake
-    inline constexpr int INTAKE_MOTOR_ID = 6;
-    inline constexpr int FEEDER_MOTOR_ID = 7;
+    inline constexpr int PCM_ID = 14;
+    
+    inline constexpr int SOLENOID_CHANNEL = 7;
+    inline constexpr int DOUBLE_SOLENOID_CHANNEL_1_ID = 5;
+    inline constexpr int DOUBLE_SOLENOID_CHANNEL_2_ID = 6;
 
     // DIO
     inline constexpr int FEEDER_BREAKBEAM_ID = 1;
@@ -61,11 +62,19 @@ namespace cb {
     inline constexpr double maxArmVoltage = 0.2;
     inline constexpr double maxFeedForward = 0.2;
 
+    inline constexpr double maxArmIntakePower = 0.5;
+
+    inline constexpr double frontIntakeWheelPower =  0.25;
+    inline constexpr double frontIntakeDirPower = 0.1;
+
+    inline constexpr double frontIntakeDownPos = 0;
+    inline constexpr double frontIntakeUpPos = 30200;
+
     //voltage used to rotate the arm
     inline constexpr double autoArmVoltage = 0.5;
-
-    inline constexpr units::volt_t toRampVoltage = 2_V;
-    inline constexpr units::volt_t onRampVoltage = 1.35_V;
+    
+    inline constexpr units::volt_t toRampVoltage = 2.5_V;
+    inline constexpr units::volt_t onRampVoltage = 1.85_V;
 
     //Feedforward robot characterization data
     inline constexpr units::volt_t ksDrivetrain = 0.24537_V;
@@ -76,11 +85,6 @@ namespace cb {
     inline constexpr double kPDrivetrain = 0.001; //previously 1.0782
     inline constexpr double kIDrivetrain = 0.00003;
     inline constexpr double kDDrivetrain = 0.0; //previously 0.43708
-
-    //PID values that are tunable from smartdashboard
-    inline double sKPDrivetrain = 0.001;
-    inline double sKIDrivetrain = 0.00003;
-    inline double sKDDrivetrain = 0.0;
 
     //Angular robot characterization data
     inline constexpr double ksAngular = 0.59266;

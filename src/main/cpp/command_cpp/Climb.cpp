@@ -19,7 +19,7 @@ void cb::Climb::Execute() {
         m_onRamp = true;
         m_voltage = onRampVoltage;
         m_rampTime = high_resolution_clock::now();
-    } else if (m_deltaRoll > 0.3 && m_onRamp && high_resolution_clock::now() - m_rampTime > 1.8s) {
+    } else if (m_deltaRoll > 0.3 && m_onRamp && high_resolution_clock::now() - m_rampTime > 1.3s) {
         m_isFinished = true;
         return;
     }

@@ -27,14 +27,39 @@ frc2::Command* cb::getSelectedAutoCommand() {
 
 void cb::configureButtonBindings() {
     con1.RightTrigger().OnTrue(new frc2::InstantCommand([]() {
-        std::cout << "Pitch: " << g_drivetrain.getGyro().GetPitch() << std::endl;
-        std::cout << "Roll: " << g_drivetrain.getGyro().GetRoll() << std::endl;
-        std::cout << "Yaw: " << g_drivetrain.getGyro().GetYaw() << std::endl;
-        std::cout << "Low Power Mode: " << lowPower << std::endl;
+        g_frontIntake.spinWheels(frontIntakeWheelPower);
+    }));
+    con1.RightTrigger().OnFalse(new frc2::InstantCommand([]() {
+        g_frontIntake.spinWheels(0);
+    }));
+    con1.LeftTrigger().OnTrue(new frc2::InstantCommand([]() {
+        g_frontIntake.spinWheels(-frontIntakeWheelPower);
+    }));
+    con1.LeftTrigger().OnFalse(new frc2::InstantCommand([]() {
+        g_frontIntake.spinWheels(0);
+    }));
+    
+    con1.X().OnTrue(new frc2::InstantCommand([]() {
+        g_frontIntake.changeDirection(0.1);
+    }));
+    con1.X().OnFalse(new frc2::InstantCommand([]() {
+        g_frontIntake.changeDirection(0);
     }));
 
-    con1.LeftTrigger().OnTrue(new MoveArm());
-    con1.LeftBumper().OnTrue(new frc2::InstantCommand([]() {
+    con1.B().OnTrue(new frc2::InstantCommand([]() {
+        g_frontIntake.changeDirection(-0.1);
+    }));
+    con1.B().OnFalse(new frc2::InstantCommand([]() {
+        g_frontIntake.changeDirection(0);
+    }));
+
+    con1.Y().OnTrue(new frc2::InstantCommand([]() {
+        std::cout << g_frontIntake.getFXSensorPos() << std::endl;
+    }));
+
+    con1.RightBumper().OnTrue(new ToggleFrontIntake());
+    
+    con2.LeftBumper().OnTrue(new frc2::InstantCommand([]() {
         g_arm.resetPosition();
         std::cout << "New position: " << g_arm.getSensorPos() << std::endl;
     }));
@@ -56,7 +81,7 @@ void cb::configureButtonBindings() {
         new frc2::FunctionalCommand(
             []() {},
             [&]() {
-                g_arm.moveLimb(con1.GetLeftY());
+                g_arm.moveLimb(con2.GetLeftY());
             },
             [](bool) {},
             []() { return false; }
@@ -67,20 +92,20 @@ void cb::configureButtonBindings() {
         new frc2::FunctionalCommand(
             []() {},
             []() {
-                g_armIntake.grab(con1.GetRightY());
+                g_armIntake.grab(con2.GetRightY() * maxArmIntakePower);
             },
             [](bool) {},
             []() { return false; }
         )
     );
     //input for driving the robot
-    // frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
-    //     [&]() {}, //no initialization needs
-    //     [&]() { //execution function
-    //         g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
-    //     },
-    //     [](bool) {}, //never ends
-    //     []() { return false; }, //never ends
-    //     { &g_drivetrain } 
-    // ));
+    frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
+        [&]() {}, //no initialization needs
+        [&]() { //execution function
+            g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
+        },
+        [](bool) {}, //never ends
+        []() { return false; }, //never ends
+        { &g_drivetrain } 
+    ));
 }

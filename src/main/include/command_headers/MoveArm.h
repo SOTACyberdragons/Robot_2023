@@ -15,9 +15,14 @@ namespace cb {
         : public frc2::CommandHelper<frc2::CommandBase, MoveArm>
     {
     private:
+        double m_setpoint = 0;
+        double m_direction = 1;
+
         void Initialize() override;
         void Execute() override;
         bool IsFinished() override;
+    public:
+        MoveArm(double setpoint);
     };
 }
 

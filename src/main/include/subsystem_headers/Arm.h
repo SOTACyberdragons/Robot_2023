@@ -8,6 +8,8 @@
 #include <frc/Solenoid.h>
 #include <frc/DigitalInput.h>
 
+#include <frc/PneumaticsControlModule.h>
+
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 
 #include <units/voltage.h>
@@ -21,25 +23,29 @@ namespace cb {
     class Arm : public frc2::SubsystemBase {
     private:
         //frc::DigitalInput m_magnetSensor { 0 };
-        //frc::Solenoid m_solenoid { SOLENOID_ID, frc::PneumaticsModuleType::REVPH, 0 };  
+        frc::PneumaticsControlModule m_pcm { PCM_ID };
+
+        frc::Solenoid m_solenoid { PCM_ID, frc::PneumaticsModuleType::CTREPCM, 7 };  
+
         WPI_TalonFX m_limb { LIMB_ID };
 
         void Periodic() override;
 
         double feedForward();
     public:
-        //true for on and false for off
-        //void activateSolenoid(bool onOff);
+        Arm();
 
-        void resetPosition();
-        
         const WPI_TalonFX& getMotor() const;
         double getSensorPos();
 
+        //true for on and false for off
+        void activateSolenoid(bool onOff);
+
+        void moveToPosition(double setPoint);
+        void resetPosition();
+
         //positive voltage for going up, negative for going down
         void moveLimb(double voltage);
-
-        Arm();
     };
 
    inline Arm g_arm;
