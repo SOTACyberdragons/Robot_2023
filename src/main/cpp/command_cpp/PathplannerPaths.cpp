@@ -1,7 +1,7 @@
 #include "command_headers/PathplannerPaths.h"
 
 frc::Trajectory cb::loadPath(PathName path, 
-    units::meters_per_second_t maxAcceleration, units::meters_per_second_squared_t maxVelocity) 
+    units::meters_per_second_t maxVelocity, units::meters_per_second_squared_t maxAccel) 
 {
     std::string pathPath;
 
@@ -20,7 +20,7 @@ frc::Trajectory cb::loadPath(PathName path,
             break;
     }
 
-    auto trajectory = PathPlanner::loadPath(pathPath, PathConstraints(maxAcceleration, maxVelocity));
+    auto trajectory = PathPlanner::loadPath(pathPath, PathConstraints(maxVelocity, maxAccel));
 
     return trajectory.asWPILibTrajectory();
 }

@@ -26,45 +26,38 @@ frc2::Command* cb::getSelectedAutoCommand() {
 }
 
 void cb::configureButtonBindings() {
-    con1.RightTrigger().OnTrue(new frc2::InstantCommand([]() {
-        g_frontIntake.spinWheels(frontIntakeWheelPower);
+    driverCon.RightTrigger().OnTrue(new frc2::InstantCommand([]() {
+        g_frontIntake.spinWheels(frontIntakePower);
     }));
-    con1.RightTrigger().OnFalse(new frc2::InstantCommand([]() {
+    driverCon.RightTrigger().OnFalse(new frc2::InstantCommand([]() {
         g_frontIntake.spinWheels(0);
     }));
-    con1.LeftTrigger().OnTrue(new frc2::InstantCommand([]() {
-        g_frontIntake.spinWheels(-frontIntakeWheelPower);
+    driverCon.LeftTrigger().OnTrue(new frc2::InstantCommand([]() {
+        g_frontIntake.spinWheels(-frontOuttakePower);
     }));
-    con1.LeftTrigger().OnFalse(new frc2::InstantCommand([]() {
+    driverCon.LeftTrigger().OnFalse(new frc2::InstantCommand([]() {
         g_frontIntake.spinWheels(0);
     }));
     
-    con1.X().OnTrue(new frc2::InstantCommand([]() {
-        g_frontIntake.changeDirection(0.1);
-    }));
-    con1.X().OnFalse(new frc2::InstantCommand([]() {
-        g_frontIntake.changeDirection(0);
+    driverCon.X().OnTrue(new frc2::InstantCommand([]() {
+        g_frontIntake.toggleJaws();
     }));
 
-    con1.B().OnTrue(new frc2::InstantCommand([]() {
-        g_frontIntake.changeDirection(-0.1);
-    }));
-    con1.B().OnFalse(new frc2::InstantCommand([]() {
-        g_frontIntake.changeDirection(0);
+    armCon.A().OnTrue(new frc2::InstantCommand([]() {
+        usingFeedForward = true;
     }));
 
-    con1.Y().OnTrue(new frc2::InstantCommand([]() {
-        std::cout << g_frontIntake.getFXSensorPos() << std::endl;
+    armCon.B().OnTrue(new frc2::InstantCommand([]() {
+        g_arm.toggleArmBase();
     }));
-
-    con1.RightBumper().OnTrue(new ToggleFrontIntake());
     
-    con2.LeftBumper().OnTrue(new frc2::InstantCommand([]() {
-        g_arm.resetPosition();
-        std::cout << "New position: " << g_arm.getSensorPos() << std::endl;
-    }));
+    driverCon.LeftBumper().OnTrue(new ToggleFrontIntake(false));
 
-    con1.A().OnTrue(new frc2::InstantCommand(
+    armCon.RightBumper().OnTrue(new frc2::SequentialCommandGroup(
+        ToggleFrontIntake(true), MoveArmToIntake(ArmPosition::CUBE_POS)
+    ));
+
+    driverCon.A().OnTrue(new frc2::InstantCommand(
         []() {
             lowPower = !lowPower; //toggle low power mode for drivetrain motors
             if (lowPower) {
@@ -81,7 +74,7 @@ void cb::configureButtonBindings() {
         new frc2::FunctionalCommand(
             []() {},
             [&]() {
-                g_arm.moveLimb(con2.GetLeftY());
+                g_arm.moveLimb(armCon.GetLeftY());
             },
             [](bool) {},
             []() { return false; }
@@ -92,7 +85,7 @@ void cb::configureButtonBindings() {
         new frc2::FunctionalCommand(
             []() {},
             []() {
-                g_armIntake.grab(con2.GetRightY() * maxArmIntakePower);
+                g_armIntake.grab(armCon.GetRightY() * maxArmIntakePower);
             },
             [](bool) {},
             []() { return false; }

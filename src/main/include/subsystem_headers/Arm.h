@@ -7,7 +7,6 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/Solenoid.h>
 #include <frc/DigitalInput.h>
-
 #include <frc/PneumaticsControlModule.h>
 
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
@@ -22,10 +21,11 @@ using ctre::phoenix::motorcontrol::NeutralMode;
 namespace cb {
     class Arm : public frc2::SubsystemBase {
     private:
-        //frc::DigitalInput m_magnetSensor { 0 };
+        frc::DigitalInput m_limitSwitch { LIMIT_SWITCH_CHANNEL_ID };
         frc::PneumaticsControlModule m_pcm { PCM_ID };
 
-        frc::Solenoid m_solenoid { PCM_ID, frc::PneumaticsModuleType::CTREPCM, 7 };  
+        frc::Solenoid m_solenoid { PCM_ID, frc::PneumaticsModuleType::CTREPCM, SOLENOID_CHANNEL };  
+        bool m_setSolenoid = false;
 
         WPI_TalonFX m_limb { LIMB_ID };
 
@@ -36,10 +36,12 @@ namespace cb {
         Arm();
 
         const WPI_TalonFX& getMotor() const;
-        double getSensorPos();
+        double getSensorPos(); 
+        
+        bool getLimitSwitchState() const;
 
         //true for on and false for off
-        void activateSolenoid(bool onOff);
+        void toggleArmBase();
 
         void moveToPosition(double setPoint);
         void resetPosition();

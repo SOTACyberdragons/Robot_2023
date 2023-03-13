@@ -8,6 +8,9 @@
 #include <units/voltage.h>
 
 namespace cb {
+    inline bool isTeleop = false;
+
+    inline bool usingFeedForward = false;
     /**
      * Talon SRX/ Victor SPX will supported multiple (cascaded) PID loops. For now we just want the
      * primary one.
@@ -31,20 +34,23 @@ namespace cb {
 
     inline constexpr int PCM_ID = 14;
     
+    //Arm intake solenoid ID
     inline constexpr int SOLENOID_CHANNEL = 7;
-    inline constexpr int DOUBLE_SOLENOID_CHANNEL_1_ID = 5;
-    inline constexpr int DOUBLE_SOLENOID_CHANNEL_2_ID = 6;
 
-    // DIO
-    inline constexpr int FEEDER_BREAKBEAM_ID = 1;
+    //double solenoid IDs on front intake
+    inline constexpr int DOUBLE_SOLENOID_FORWARD_CHANNEL_ID = 6;
+    inline constexpr int DOUBLE_SOLENOID_REVERSE_CHANNEL_ID = 5;
 
-    //Solenoid arm ID
-    inline constexpr int SOLENOID_ID = 11;
+    //limit switch channels on front intake
+    inline constexpr int UPPER_LIMIT_SWITCH_CHANNEL = 1;
+    inline constexpr int LOWER_LIMIT_SWITCH_CHANNEL = 2;
 
     //limb motor ID
     inline constexpr int LIMB_ID = 10;
 
     inline constexpr int ARM_INTAKE_ID = 13;
+
+    inline constexpr int LIMIT_SWITCH_CHANNEL_ID = 0;
 
     //pigeon ID
     inline constexpr int PIGEON_ID = 8;
@@ -59,22 +65,31 @@ namespace cb {
     //inline constexpr units::meters_per_second_squared_t kMaxAcceleration = 1_mps_sq;
 
     //manual arm moving constants
-    inline constexpr double maxArmVoltage = 0.2;
+    inline constexpr double maxArmVoltage = 0.4;
+
     inline constexpr double maxFeedForward = 0.2;
 
-    inline constexpr double maxArmIntakePower = 0.5;
+    inline constexpr double maxArmIntakePower = 0.65;
 
-    inline constexpr double frontIntakeWheelPower =  0.25;
-    inline constexpr double frontIntakeDirPower = 0.1;
+    inline constexpr double frontIntakePower =  0.75;
+    inline constexpr double frontOuttakePower = 0.3;
+    inline constexpr double frontIntakeDirPower = 0.14;
 
     inline constexpr double frontIntakeDownPos = 0;
-    inline constexpr double frontIntakeUpPos = 30200;
+    inline constexpr double frontIntakeUpPos = 33000;
 
-    //voltage used to rotate the arm
-    inline constexpr double autoArmVoltage = 0.5;
+    //arm auto constants
+    inline constexpr double autoArmVoltage = 0.65;
+    inline constexpr double armIntakeCubeSetpoint = -95000;
+    inline constexpr double armIntakeConeSetpoint = 0;
     
     inline constexpr units::volt_t toRampVoltage = 2.5_V;
-    inline constexpr units::volt_t onRampVoltage = 1.85_V;
+    inline constexpr units::volt_t onRampVoltage = 1.25_V;
+
+    //roll at which we are sure the robot is on the ramp
+    inline constexpr double forwardRampRollThreshold = 10;
+
+    inline constexpr units::volt_t turnRobotVolts = 1.75_V;
 
     //Feedforward robot characterization data
     inline constexpr units::volt_t ksDrivetrain = 0.24537_V;

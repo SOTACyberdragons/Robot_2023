@@ -2,14 +2,19 @@
 
 void cb::ToggleFrontIntake::Initialize() {
     AddRequirements(&g_frontIntake);
-    g_frontIntake.setFXSensorPosition(m_setpoint); //update intake fx position with previous endpoint
+    //g_frontIntake.used = true;
 
-    if (m_up) {
-        m_direction = -1;
-        m_setpoint = frontIntakeDownPos;
-    } else {
+    if (g_frontIntake.down()) {
+        std::cout << "Going up\n";
         m_direction = 1;
-        m_setpoint = frontIntakeUpPos;
+    } else if (g_frontIntake.up()) {
+        if (m_handoff) {
+            Cancel();
+        } else {
+            m_direction = -1;
+        }
+    } else { //do not allow command to be used while intake is moving
+        Cancel();
     }
 }
 
@@ -18,11 +23,17 @@ void cb::ToggleFrontIntake::Execute() {
 }
 
 bool cb::ToggleFrontIntake::IsFinished() {
-    return (g_frontIntake.getFXSensorPos() <= m_setpoint + 500 &&
-            g_frontIntake.getFXSensorPos() >= m_setpoint - 500);
+    if (m_direction == 1) { //if we are going up
+        return g_frontIntake.up();
+    } else { //otherwise 
+        return g_frontIntake.down();
+    }
 }
 
-void cb::ToggleFrontIntake::End(bool) {
-    m_up = !m_up;
-    g_frontIntake.changeDirection(0);
+void cb::ToggleFrontIntake::End(bool m_isFinished) {
+    g_frontIntake.changeDirection(0); //stop moving intake motor
 }
+
+cb::ToggleFrontIntake::ToggleFrontIntake(bool handoff) 
+    : m_handoff(handoff)
+{}

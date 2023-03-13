@@ -11,5 +11,5 @@ namespace cb {
     };
 
     frc::Trajectory loadPath(PathName path, 
-        units::meters_per_second_t maxAccel, units::meters_per_second_squared_t maxVel);
+        units::meters_per_second_t maxVel, units::meters_per_second_squared_t maxAccel);
 }

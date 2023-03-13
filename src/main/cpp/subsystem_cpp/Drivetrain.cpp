@@ -73,6 +73,13 @@ void cb::Drivetrain::resetPosition() {
     frc::Pose2d(0.0_m, 0.0_m, frc::Rotation2d(0.0, 0.0)));
 }
 
+void cb::Drivetrain::setMotorMode(NeutralMode mode) {
+    m_leftMaster.SetNeutralMode(mode);
+    m_leftSlave.SetNeutralMode(mode);
+    m_rightMaster.SetNeutralMode(mode);
+    m_rightSlave.SetNeutralMode(mode);
+}
+
 void cb::Drivetrain::arcadeDrive(double fwd, double rot) {
     m_drive.ArcadeDrive(fwd, rot);
 }
@@ -129,15 +136,12 @@ void cb::Drivetrain::resetTalons() {
     m_rightMaster.SetSelectedSensorPosition(0);
     m_rightSlave.SetSelectedSensorPosition(0);
 
-    m_leftMaster.SetInverted(true);
-    m_leftSlave.SetInverted(true);
-    m_rightMaster.SetInverted(false);
-    m_rightSlave.SetInverted(false);
+    m_leftMaster.SetInverted(false);
+    m_leftSlave.SetInverted(false);
+    m_rightMaster.SetInverted(true);
+    m_rightSlave.SetInverted(true);
 
-    m_leftMaster.SetNeutralMode(NeutralMode::Coast);
-    m_leftSlave.SetNeutralMode(NeutralMode::Coast);
-    m_rightMaster.SetNeutralMode(NeutralMode::Coast);
-    m_rightSlave.SetNeutralMode(NeutralMode::Coast);
+    setMotorMode(NeutralMode::Coast);
 }
 
 double cb::Drivetrain::getTurnRate() {

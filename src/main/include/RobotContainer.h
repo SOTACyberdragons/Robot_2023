@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <math.h>
+#include <iostream>
 
 #include <frc2/command/Command.h>
 #include <frc2/command/InstantCommand.h>
@@ -25,14 +26,15 @@
 //auto commands
 #include "command_headers/PathplannerPaths.h"
 #include "command_headers/RamseteCommandUtil.h"
-#include "command_headers/MoveArm.h"
 #include "command_headers/Climb.h"
+#include "command_headers/TurnRobot.h"
 #include "command_headers/StayBalanced.h"
 #include "command_headers/ToggleFrontIntake.h"
+#include "command_headers/MoveArmToIntake.h"
 
 namespace cb {
     //the physical xbox controller, mapped to port 0
-    static frc2::CommandXboxController con1 { 0 }, con2 { 1 };
+    static frc2::CommandXboxController driverCon { 0 }, armCon { 1 };
 
     static const frc2::Trigger controllerX;
 
@@ -40,12 +42,12 @@ namespace cb {
 
     //Return XBox left stick for throttle control
     inline double getXBoxThrottle() {
-        return con1.GetLeftY() * kMaxDriveSpeed;
+        return driverCon.GetLeftY() * kMaxDriveSpeed;
     }
 
     //Return XBox right stick for rotational control
     inline double getXBoxRotation() {
-        return con1.GetRightX() * kMaxTurnSpeed;
+        return driverCon.GetRightX() * kMaxTurnSpeed;
     }
 
     static frc::SendableChooser<frc2::Command*> autoChooser;

@@ -1,31 +1,34 @@
 #include "subsystem_headers/Arm.h"
 
-void cb::Arm::activateSolenoid(bool onOff) {
-    //m_pcm.SetSolenoids()
-    //m_solenoid.Set(onOff);
-}
-
 void cb::Arm::Periodic() {
-    // if (m_magnetSensor.Get()) { //if the arm has passed the motors
-    //    m_limb.SetSelectedSensorPosition(0);
-    // }
+    if (!m_limitSwitch.Get()) { //if the arm has passed the motors
+       m_limb.SetSelectedSensorPosition(0);
+    }
 }
 
 double cb::Arm::feedForward() {
     double degreeAngle = m_limb.GetSelectedSensorPosition() / 968.1454;
-    //std::cout << degreeAngle << std::endl;
     double radianAngle = (degreeAngle * pi) / 180;
-
     return sin(radianAngle) * 0.05;
 }
 
 cb::Arm::Arm() {
     m_limb.SetSelectedSensorPosition(0);
     m_limb.SetNeutralMode(NeutralMode::Brake);
+    m_pcm.EnableCompressorDigital();
 }
 
 const WPI_TalonFX& cb::Arm::getMotor() const {
     return m_limb;
+}
+
+bool cb::Arm::getLimitSwitchState() const {
+    return m_limitSwitch.Get();
+}
+
+void cb::Arm::toggleArmBase() {
+    m_setSolenoid = !m_setSolenoid;
+    m_solenoid.Set(m_setSolenoid);
 }
 
 double cb::Arm::getSensorPos() {
@@ -38,7 +41,11 @@ void cb::Arm::resetPosition() {
 
 void cb::Arm::moveLimb(double voltage) {
     if (voltage >= -0.05 && voltage <= 0.05) {
-        m_limb.Set(feedForward());
+        if (usingFeedForward) {
+            m_limb.Set(feedForward());
+        } else {
+            m_limb.Set(0);
+        }
     } else {
         m_limb.Set(voltage * 0.4);
     }

@@ -67,6 +67,7 @@ namespace cb {
 
         void resetOdometry(frc::Pose2d pose);
         void resetPosition();
+        void setMotorMode(NeutralMode mode);
 
         void arcadeDrive(double fwd, double rot);
 

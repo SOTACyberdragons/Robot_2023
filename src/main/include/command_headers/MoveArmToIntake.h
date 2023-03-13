@@ -1,28 +1,30 @@
-#ifndef MOVE_ARM
-#define MOVE_ARM
+#ifndef MOVE_ARM_TO_INTAKE
+#define MOVE_ARM_TO_INTAKE
+
+#include <map>
 
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/CommandBase.h>
 
-#include <units/voltage.h>
-
 #include "subsystem_headers/Arm.h"
-#include "Constants.h"
 
 namespace cb {
-    //Move arm to the setpoint 0
-    class MoveArm 
-        : public frc2::CommandHelper<frc2::CommandBase, MoveArm>
+    enum class ArmPosition {
+        CUBE_POS,
+        CONE_POS
+    };
+
+    class MoveArmToIntake 
+        : public frc2::CommandHelper<frc2::CommandBase, MoveArmToIntake>
     {
     private:
         double m_setpoint = 0;
-        double m_direction = 1;
 
         void Initialize() override;
         void Execute() override;
         bool IsFinished() override;
     public:
-        MoveArm(double setpoint);
+        MoveArmToIntake(ArmPosition Pos);
     };
 }
 

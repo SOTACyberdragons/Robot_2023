@@ -19,6 +19,7 @@ namespace cb
   {
   private:
     frc2::Command *m_autoCommand = nullptr;
+    void updateSmartDashboardData();
   public:
     void RobotInit() override;
     void RobotPeriodic() override;
