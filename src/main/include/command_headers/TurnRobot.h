@@ -20,6 +20,7 @@ namespace cb
         void Initialize() override;
         void Execute() override;
         bool IsFinished() override;
+        void End(bool) override;
     public:
         TurnRobot(double degree);
     };

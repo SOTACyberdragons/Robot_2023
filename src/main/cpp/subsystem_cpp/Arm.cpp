@@ -27,8 +27,7 @@ bool cb::Arm::getLimitSwitchState() const {
 }
 
 void cb::Arm::toggleArmBase() {
-    m_setSolenoid = !m_setSolenoid;
-    m_solenoid.Set(m_setSolenoid);
+    m_solenoid.Toggle();
 }
 
 double cb::Arm::getSensorPos() {

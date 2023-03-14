@@ -26,7 +26,7 @@ middle. The command ends when the 2nd change happens
     private:
         double m_minRoll = 0, m_maxRoll = 0;
 
-        units::meter_t m_yCoord = 0_m;
+        units::meter_t m_yCoord = 0_m, m_goal = 0_m;
 
         double m_deltaRoll = 0;
         double m_lastRoll = 0;
@@ -43,6 +43,8 @@ middle. The command ends when the 2nd change happens
         void Execute() override;
         bool IsFinished() override;
         void End(bool) override;
+    public:
+        Climb(units::meter_t meters);
     };
 }
 

@@ -18,6 +18,10 @@ bool cb::FrontIntake::up() {
     return !m_upperSwitch.Get();
 }
 
+bool cb::FrontIntake::isClosed() const {
+    return m_doubleSolenoid.Get();
+}
+
 double cb::FrontIntake::getFXSensorPos()
 {
     return m_directionMaster.GetSelectedSensorPosition();

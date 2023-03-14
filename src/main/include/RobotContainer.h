@@ -31,6 +31,10 @@
 #include "command_headers/StayBalanced.h"
 #include "command_headers/ToggleFrontIntake.h"
 #include "command_headers/MoveArmToIntake.h"
+#include "command_headers/Wait.h"
+
+//camera stream
+#include "CameraCapture.h"
 
 namespace cb {
     //the physical xbox controller, mapped to port 0
@@ -39,6 +43,13 @@ namespace cb {
     static const frc2::Trigger controllerX;
 
     inline bool lowPower = false; //toggles low/high speed for drivetrain voltage
+
+    inline frc2::SequentialCommandGroup cubeHandoff { 
+        ToggleFrontIntake(true), MoveArmToIntake(ArmPosition::CUBE_POS) 
+    };
+    inline frc2::SequentialCommandGroup coneHandoff { 
+        MoveArmToIntake(ArmPosition::CONE_POS), ToggleFrontIntake(true)
+    };
 
     //Return XBox left stick for throttle control
     inline double getXBoxThrottle() {

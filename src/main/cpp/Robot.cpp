@@ -17,6 +17,8 @@ void cb::Robot::updateSmartDashboardData() {
   frc::SmartDashboard::PutBoolean("Front intake down", g_frontIntake.down());
   frc::SmartDashboard::PutNumber("X", g_drivetrain.getPose().X().to<double>());
   frc::SmartDashboard::PutNumber("Y", g_drivetrain.getPose().Y().to<double>());
+  frc::SmartDashboard::PutBoolean("Feedforward Enabled", usingFeedForward);
+  frc::SmartDashboard::PutBoolean("Jaws Closed", g_frontIntake.isClosed());
   //frc::SmartDashboard::PutBoolean("On Ramp", )
   //std::cout << g_frontIntake.down() << std::endl;
 }
@@ -25,8 +27,11 @@ void cb::Robot::RobotInit() {
   std::cout << "Vader initializing\n";
 
   g_arm.resetPosition();
+  g_arm.toggleArmBase();
 
   addAutoModeOptions();
+  std::thread cameraThread(runCamera);
+  cameraThread.detach();
 }
 
 void cb::Robot::RobotPeriodic() {

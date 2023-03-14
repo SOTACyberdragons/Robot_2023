@@ -69,7 +69,7 @@ namespace cb {
 
     inline constexpr double maxFeedForward = 0.2;
 
-    inline constexpr double maxArmIntakePower = 0.65;
+    inline constexpr double maxArmIntakePower = 0.80;
 
     inline constexpr double frontIntakePower =  0.75;
     inline constexpr double frontOuttakePower = 0.3;
@@ -81,7 +81,7 @@ namespace cb {
     //arm auto constants
     inline constexpr double autoArmVoltage = 0.65;
     inline constexpr double armIntakeCubeSetpoint = -95000;
-    inline constexpr double armIntakeConeSetpoint = 0;
+    inline constexpr double armIntakeConeSetpoint = -88000;
     
     inline constexpr units::volt_t toRampVoltage = 2.5_V;
     inline constexpr units::volt_t onRampVoltage = 1.25_V;

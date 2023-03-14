@@ -41,6 +41,8 @@ namespace cb {
 
         bool up();
         bool down();
+        
+        bool isClosed() const;
 
         double getFXSensorPos();
 

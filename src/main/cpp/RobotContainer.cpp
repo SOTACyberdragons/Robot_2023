@@ -4,17 +4,18 @@
 void cb::addAutoModeOptions() {
     autoChooser.AddOption("Test", 
         new frc2::SequentialCommandGroup(
-           ramseteCommand(loadPath(PathName::TEST, 0.3_mps, 0.3_mps_sq)), Climb(), StayBalanced()
+           ramseteCommand(loadPath(PathName::TEST, 0.3_mps, 0.3_mps_sq)), Climb(1.28_m), StayBalanced()
         )
     );
     autoChooser.AddOption("Blue1_Left_Charge", 
         new frc2::SequentialCommandGroup(
-            ramseteCommand(loadPath(PathName::BLUE1_LEFT_CHARGE, 0.3_mps, 0.3_mps_sq)), Climb(), StayBalanced()
+            ramseteCommand(loadPath(PathName::BLUE1_LEFT_CHARGE, 0.3_mps, 0.3_mps_sq)), Climb(1.28_m), StayBalanced()
         )
     );
 
-    autoChooser.AddOption("Climb", 
-        new frc2::SequentialCommandGroup(Climb(), StayBalanced()));
+    autoChooser.AddOption("Climb and Stay Balanced", 
+        new frc2::SequentialCommandGroup(Climb(1.17_m), Wait(50ms), StayBalanced()));
+    autoChooser.AddOption("Pure Climb", new Climb(1.17_m));
 
     autoChooser.AddOption("Stay Balanced", new StayBalanced());
     
@@ -42,20 +43,35 @@ void cb::configureButtonBindings() {
     driverCon.X().OnTrue(new frc2::InstantCommand([]() {
         g_frontIntake.toggleJaws();
     }));
+    
+    driverCon.LeftBumper().OnTrue(new ToggleFrontIntake(false));
 
-    armCon.A().OnTrue(new frc2::InstantCommand([]() {
-        usingFeedForward = true;
-    }));
+    armCon.LeftBumper().OnTrue(new frc2::InstantCommand(
+        [&]() {
+            if (g_frontIntake.isClosed()) {
+                coneHandoff.Schedule();
+            } else {
+                cubeHandoff.Schedule();
+            }
+        }
+    ));
 
     armCon.B().OnTrue(new frc2::InstantCommand([]() {
         g_arm.toggleArmBase();
     }));
-    
-    driverCon.LeftBumper().OnTrue(new ToggleFrontIntake(false));
 
-    armCon.RightBumper().OnTrue(new frc2::SequentialCommandGroup(
-        ToggleFrontIntake(true), MoveArmToIntake(ArmPosition::CUBE_POS)
-    ));
+    armCon.Y().OnTrue(new frc2::InstantCommand([]() {
+        if (cubeHandoff.IsScheduled()) {
+            cubeHandoff.Cancel();
+        }
+        if (coneHandoff.IsScheduled()) {
+            coneHandoff.Cancel();
+        }
+    }));
+
+    armCon.RightTrigger().OnTrue(new frc2::InstantCommand([]() {
+        usingFeedForward = !usingFeedForward;
+    }));
 
     driverCon.A().OnTrue(new frc2::InstantCommand(
         []() {
@@ -95,7 +111,7 @@ void cb::configureButtonBindings() {
     frc2::CommandScheduler::GetInstance().Schedule(new frc2::FunctionalCommand(
         [&]() {}, //no initialization needs
         [&]() { //execution function
-            g_drivetrain.arcadeDrive(getXBoxThrottle(), -getXBoxRotation()); 
+            g_drivetrain.arcadeDrive(getXBoxThrottle(), getXBoxRotation()); 
         },
         [](bool) {}, //never ends
         []() { return false; }, //never ends

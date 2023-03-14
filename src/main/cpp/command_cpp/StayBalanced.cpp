@@ -9,12 +9,12 @@ void cb::StayBalanced::Execute()
 {
     double currentRoll = g_drivetrain.getGyro().GetRoll();
 
-    units::volt_t volts = toRampVoltage * 0.9;
+    units::volt_t volts = toRampVoltage;
 
     if (currentRoll < -2) {
-        g_drivetrain.tankDriveVolts(volts, volts);
-    } else if (currentRoll > 2) {
         g_drivetrain.tankDriveVolts(-volts, -volts);
+    } else if (currentRoll > 2) {
+        g_drivetrain.tankDriveVolts(volts, volts);
     } else {
         g_drivetrain.setMotorMode(NeutralMode::Brake);
         m_finished = true;

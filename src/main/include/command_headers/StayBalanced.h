@@ -8,10 +8,6 @@
 
 #include "subsystem_headers/Drivetrain.h"
 
-/*
-
-*/
-
 namespace cb {
     using namespace std::chrono;
     using namespace std::chrono_literals;
@@ -24,8 +20,6 @@ namespace cb {
 
         units::meters_per_second_t m_lastSpeed = 0_mps;
         units::meters_per_second_t m_deltaSpeed = 0_mps;
-
-        //units::meters_per_second_t m_lastVelocity = 0_mps;
 
         void Initialize() override;
         void Execute() override;

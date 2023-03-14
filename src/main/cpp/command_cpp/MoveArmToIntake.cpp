@@ -2,6 +2,9 @@
 
 void cb::MoveArmToIntake::Initialize() {
     usingFeedForward = false;
+    if (IsFinished()) {
+        Cancel();
+    }
 }
 
 void cb::MoveArmToIntake::Execute() {
