@@ -17,13 +17,13 @@
 
 #include "Constants.h"
 
-//subsystems
+// subsystems
 #include "subsystem_headers/Drivetrain.h"
 #include "subsystem_headers/Arm.h"
 #include "subsystem_headers/ArmIntake.h"
 #include "subsystem_headers/FrontIntake.h"
 
-//auto commands
+// auto commands
 #include "command_headers/PathplannerPaths.h"
 #include "command_headers/RamseteCommandUtil.h"
 #include "command_headers/Climb.h"
@@ -31,43 +31,86 @@
 #include "command_headers/StayBalanced.h"
 #include "command_headers/ToggleFrontIntake.h"
 #include "command_headers/MoveArmToIntake.h"
+#include "command_headers/RotateArm.h"
 #include "command_headers/Wait.h"
+#include "command_headers/TimedCommand.h"
 
-//camera stream
-#include "CameraCapture.h"
+namespace cb
+{
+    // the physical xbox controller, mapped to port 0
+    static frc2::CommandXboxController driverCon{0}, armCon{1};
 
-namespace cb {
-    //the physical xbox controller, mapped to port 0
-    static frc2::CommandXboxController driverCon { 0 }, armCon { 1 };
+    inline Climb climbCommand{
+        Climb(1.17_m)};
 
     static const frc2::Trigger controllerX;
 
-    inline bool lowPower = false; //toggles low/high speed for drivetrain voltage
+    inline bool lowPower = false; // toggles low/high speed for drivetrain voltage
 
-    inline frc2::SequentialCommandGroup cubeHandoff { 
-        ToggleFrontIntake(true), MoveArmToIntake(ArmPosition::CUBE_POS) 
-    };
-    inline frc2::SequentialCommandGroup coneHandoff { 
-        MoveArmToIntake(ArmPosition::CONE_POS), ToggleFrontIntake(true)
-    };
+    inline double climbingMeters = 0;
 
-    //Return XBox left stick for throttle control
-    inline double getXBoxThrottle() {
+    inline TimedCommand autoOuttake{
+        &g_frontIntake, []() {}, []()
+        { g_frontIntake.spinWheels(-0.3); },
+        []()
+        { g_frontIntake.spinWheels(0); },
+        1000ms};
+
+    inline frc2::SequentialCommandGroup cubeHandoff{
+        ToggleFrontIntake(true), MoveArmToIntake(ArmPosition::CUBE_POS), autoOuttake};
+
+    // Return XBox left stick for throttle control
+    inline double getXBoxThrottle()
+    {
         return driverCon.GetLeftY() * kMaxDriveSpeed;
     }
 
-    //Return XBox right stick for rotational control
-    inline double getXBoxRotation() {
+    // Return XBox right stick for rotational control
+    inline double getXBoxRotation()
+    {
         return driverCon.GetRightX() * kMaxTurnSpeed;
     }
 
-    static frc::SendableChooser<frc2::Command*> autoChooser;
+    inline frc2::FunctionalCommand driveInput{
+        []() {}, // no initialization needs
+        []() {   // execution function
+            g_drivetrain.arcadeDrive(getXBoxThrottle(), getXBoxRotation());
+        },
+        [](bool) {}, // never ends
+        []()
+        { return false; }, // never ends
+        {&g_drivetrain}};
+
+    inline frc2::FunctionalCommand armIntakeInput{
+        []() {},
+        []()
+        {
+            g_armIntake.grab(armCon.GetRightY() * maxArmIntakePower);
+        },
+        [](bool) {},
+        []()
+        { return false; }
+    };
+
+    inline frc2::FunctionalCommand armInput
+    {
+        []() {},
+        []()
+        {
+            g_arm.moveLimb(armCon.GetLeftY());
+        },
+            [](bool) {},
+            []()
+        { return false; }
+    };
+
+    static frc::SendableChooser<frc2::Command *> autoChooser;
 
     void configureButtonBindings();
 
     void addAutoModeOptions();
 
-    [[nodiscard]] frc2::Command* getSelectedAutoCommand();
+    [[nodiscard]] frc2::Command *getSelectedAutoCommand();
 }
 
 #endif

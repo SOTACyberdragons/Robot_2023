@@ -19,7 +19,7 @@ bool cb::FrontIntake::up() {
 }
 
 bool cb::FrontIntake::isClosed() const {
-    return m_doubleSolenoid.Get();
+    return m_doubleSolenoid.Get() == SolenoidState::kReverse;
 }
 
 double cb::FrontIntake::getFXSensorPos()

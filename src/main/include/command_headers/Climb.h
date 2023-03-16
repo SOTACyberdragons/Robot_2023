@@ -44,6 +44,7 @@ middle. The command ends when the 2nd change happens
         bool IsFinished() override;
         void End(bool) override;
     public:
+        void setGoal(units::meter_t meters);
         Climb(units::meter_t meters);
     };
 }

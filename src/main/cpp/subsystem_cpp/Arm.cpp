@@ -16,6 +16,7 @@ cb::Arm::Arm() {
     m_limb.SetSelectedSensorPosition(0);
     m_limb.SetNeutralMode(NeutralMode::Brake);
     m_pcm.EnableCompressorDigital();
+    m_solenoid.Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 const WPI_TalonFX& cb::Arm::getMotor() const {
@@ -46,6 +47,6 @@ void cb::Arm::moveLimb(double voltage) {
             m_limb.Set(0);
         }
     } else {
-        m_limb.Set(voltage * 0.4);
+        m_limb.Set(voltage * maxArmVoltage);
     }
 }

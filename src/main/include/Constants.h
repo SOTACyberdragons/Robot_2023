@@ -34,23 +34,25 @@ namespace cb {
 
     inline constexpr int PCM_ID = 14;
     
-    //Arm intake solenoid ID
-    inline constexpr int SOLENOID_CHANNEL = 7;
+    //Arm base solenoid channels
+    inline constexpr int ARM_SOLENOID_FORWARD_CHANNEL_ID = 7;
+    inline constexpr int ARM_SOLENOID_REVERSE_CHANNEL_ID = 4;
 
     //double solenoid IDs on front intake
-    inline constexpr int DOUBLE_SOLENOID_FORWARD_CHANNEL_ID = 6;
-    inline constexpr int DOUBLE_SOLENOID_REVERSE_CHANNEL_ID = 5;
+    inline constexpr int INTAKE_SOLENOID_FORWARD_CHANNEL_ID = 6;
+    inline constexpr int INTAKE_SOLENOID_REVERSE_CHANNEL_ID = 5;
+
+    //Limit switch channel on the arm
+    inline constexpr int LIMIT_SWITCH_CHANNEL_ID = 0;
 
     //limit switch channels on front intake
-    inline constexpr int UPPER_LIMIT_SWITCH_CHANNEL = 1;
-    inline constexpr int LOWER_LIMIT_SWITCH_CHANNEL = 2;
+    inline constexpr int UPPER_LIMIT_SWITCH_CHANNEL = 3;
+    inline constexpr int LOWER_LIMIT_SWITCH_CHANNEL = 1;
 
     //limb motor ID
     inline constexpr int LIMB_ID = 10;
 
     inline constexpr int ARM_INTAKE_ID = 13;
-
-    inline constexpr int LIMIT_SWITCH_CHANNEL_ID = 0;
 
     //pigeon ID
     inline constexpr int PIGEON_ID = 8;
@@ -69,7 +71,7 @@ namespace cb {
 
     inline constexpr double maxFeedForward = 0.2;
 
-    inline constexpr double maxArmIntakePower = 0.80;
+    inline constexpr double maxArmIntakePower = 0.55;
 
     inline constexpr double frontIntakePower =  0.75;
     inline constexpr double frontOuttakePower = 0.3;
@@ -80,7 +82,7 @@ namespace cb {
 
     //arm auto constants
     inline constexpr double autoArmVoltage = 0.65;
-    inline constexpr double armIntakeCubeSetpoint = -95000;
+    inline constexpr double armIntakeCubeSetpoint = -106000;
     inline constexpr double armIntakeConeSetpoint = -88000;
     
     inline constexpr units::volt_t toRampVoltage = 2.5_V;

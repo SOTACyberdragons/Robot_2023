@@ -23,7 +23,7 @@ namespace cb {
 
         frc::DoubleSolenoid m_doubleSolenoid { 
             PCM_ID, frc::PneumaticsModuleType::CTREPCM,
-            DOUBLE_SOLENOID_FORWARD_CHANNEL_ID, DOUBLE_SOLENOID_REVERSE_CHANNEL_ID
+            INTAKE_SOLENOID_FORWARD_CHANNEL_ID, INTAKE_SOLENOID_REVERSE_CHANNEL_ID
         };
         using SolenoidState = frc::DoubleSolenoid::Value;
         SolenoidState m_solenoidState = SolenoidState::kOff;
