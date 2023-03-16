@@ -40,8 +40,9 @@ namespace cb
     // the physical xbox controller, mapped to port 0
     static frc2::CommandXboxController driverCon{0}, armCon{1};
 
-    inline Climb climbCommand{
-        Climb(1.17_m)};
+    inline Climb climbCommand {
+        Climb(1.17_m)
+    };
 
     static const frc2::Trigger controllerX;
 
@@ -70,6 +71,58 @@ namespace cb
     {
         return driverCon.GetRightX() * kMaxTurnSpeed;
     }
+
+    inline Climb autoClimb { 1.17_m };
+
+    inline frc2::InstantCommand testClimb { []() {
+        climbCommand.setGoal(units::meter_t(frc::SmartDashboard::GetNumber("Climbing Distance", 1.17)));
+        climbCommand.Schedule();
+        }
+    };
+
+    inline frc2::InstantCommand spinFrontIntakeForward { []() { g_frontIntake.spinWheels(frontIntakePower); } };
+    inline frc2::InstantCommand spinFrontIntakeBack { []() { g_frontIntake.spinWheels(-frontIntakePower); } };
+    inline frc2::InstantCommand stopSpinningFrontIntake { []() { g_frontIntake.spinWheels(0); } };
+
+    inline frc2::InstantCommand toggleJaws { []() { g_frontIntake.toggleJaws(); } };
+
+    inline ToggleFrontIntake driverToggleIntake { false };
+
+    inline frc2::InstantCommand toggleArmBase { 
+        []() {
+            g_arm.toggleArmBase();
+        }
+    };
+
+    inline frc2::InstantCommand startHandoff {
+        []() {
+            if (cubeHandoff.IsScheduled()) {
+                cubeHandoff.Cancel();
+            }
+            cubeHandoff.Schedule();
+        }
+    };
+
+    inline frc2::InstantCommand cancelHandoff { 
+        []() {
+            if (cubeHandoff.IsScheduled()) {
+                cubeHandoff.Cancel();
+            }
+        }
+    };
+
+    inline frc2::InstantCommand toggleLowPowerMode {
+        []() {
+            lowPower = !lowPower; //toggle low power mode for drivetrain motors
+            if (lowPower) {
+                kMaxDriveSpeed = 0.5;
+                kMaxTurnSpeed = 0.5;
+            } else {
+                kMaxDriveSpeed = 0.85;
+                kMaxTurnSpeed = 0.85;
+            }
+        }
+    };
 
     inline frc2::FunctionalCommand driveInput{
         []() {}, // no initialization needs

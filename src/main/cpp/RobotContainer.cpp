@@ -11,65 +11,29 @@ frc2::Command* cb::getSelectedAutoCommand() {
 }
 
 void cb::configureButtonBindings() {
-    driverCon.RightTrigger().OnTrue(new frc2::InstantCommand([]() {
-        g_frontIntake.spinWheels(frontIntakePower);
-    }));
-    driverCon.RightTrigger().OnFalse(new frc2::InstantCommand([]() {
-        g_frontIntake.spinWheels(0);
-    }));
-    driverCon.LeftTrigger().OnTrue(new frc2::InstantCommand([]() {
-        g_frontIntake.spinWheels(-frontOuttakePower);
-    }));
-    driverCon.LeftTrigger().OnFalse(new frc2::InstantCommand([]() {
-        g_frontIntake.spinWheels(0);
-    }));
+    driverCon.RightTrigger().OnTrue(&spinFrontIntakeForward);
+    driverCon.RightTrigger().OnFalse(&stopSpinningFrontIntake);
+    driverCon.LeftTrigger().OnTrue(&spinFrontIntakeBack);
+    driverCon.LeftTrigger().OnFalse(&stopSpinningFrontIntake);
 
-    driverCon.RightBumper().OnTrue(
-        new frc2::InstantCommand([]() {
-            climbCommand.setGoal(units::meter_t(frc::SmartDashboard::GetNumber("Climbing Distance", 1.17)));
-            climbCommand.Schedule();
-        })
-    );
+    driverCon.RightBumper().OnTrue(&testClimb);
     
-    driverCon.X().OnTrue(new frc2::InstantCommand([]() {
-        g_frontIntake.toggleJaws();
-    }));
+    driverCon.X().OnTrue(&toggleJaws);
     
-    driverCon.LeftBumper().OnTrue(new ToggleFrontIntake(false));
-
-    driverCon.Y().OnTrue(new frc2::InstantCommand([]() {
-        climbCommand.Cancel();
-        climbCommand.Schedule();
-    }));
+    driverCon.LeftBumper().OnTrue(&driverToggleIntake);
 
     armCon.LeftBumper().OnTrue(&cubeHandoff);
 
-    armCon.B().OnTrue(new frc2::InstantCommand([]() {
-        g_arm.toggleArmBase();
-    }));
+    armCon.B().OnTrue(&toggleArmBase);
 
-    armCon.Y().OnTrue(new frc2::InstantCommand([]() {
-        if (cubeHandoff.IsScheduled()) {
-            cubeHandoff.Cancel();
-        }
-    }));
+    armCon.A().OnTrue(&startHandoff);
+    armCon.Y().OnTrue(&cancelHandoff);
 
-    armCon.RightTrigger().OnTrue(new frc2::InstantCommand([]() {
-        usingFeedForward = !usingFeedForward;
-    }));
+    // armCon.RightTrigger().OnTrue(new frc2::InstantCommand([]() {
+    //     usingFeedForward = !usingFeedForward;
+    // }));
 
-    driverCon.A().OnTrue(new frc2::InstantCommand( 
-        []() {
-            lowPower = !lowPower; //toggle low power mode for drivetrain motors
-            if (lowPower) {
-                kMaxDriveSpeed = 0.5;
-                kMaxTurnSpeed = 0.5;
-            } else {
-                kMaxDriveSpeed = 0.85;
-                kMaxTurnSpeed = 0.85;
-            }
-        }
-    ));
+    driverCon.A().OnTrue(&toggleLowPowerMode);
 
     // frc2::CommandScheduler::GetInstance().Schedule(
     //     new frc2::FunctionalCommand(
