@@ -11,7 +11,7 @@ void cb::Climb::Initialize() {
     m_onRamp = false;
     m_isFinished = false;
 
-    std::cout << "Goal: " << m_goal.to<double>() << std::endl;
+    std::cout << "Normal Climb Goal: " << m_goal.to<double>() << std::endl;
 }
 
 void cb::Climb::Execute() {

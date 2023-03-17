@@ -27,6 +27,7 @@
 #include "command_headers/PathplannerPaths.h"
 #include "command_headers/RamseteCommandUtil.h"
 #include "command_headers/Climb.h"
+#include "command_headers/WinClimb.h"
 #include "command_headers/TurnRobot.h"
 #include "command_headers/StayBalanced.h"
 #include "command_headers/ToggleFrontIntake.h"
@@ -40,25 +41,23 @@ namespace cb
     // the physical xbox controller, mapped to port 0
     static frc2::CommandXboxController driverCon{0}, armCon{1};
 
-    inline Climb climbCommand {
-        Climb(1.17_m)
-    };
-
     static const frc2::Trigger controllerX;
 
     inline bool lowPower = false; // toggles low/high speed for drivetrain voltage
 
     inline double climbingMeters = 0;
 
-    inline TimedCommand autoOuttake{
+    inline TimedCommand autoOuttake {
         &g_frontIntake, []() {}, []()
         { g_frontIntake.spinWheels(-0.3); },
         []()
         { g_frontIntake.spinWheels(0); },
-        1000ms};
+        1000ms
+    };
 
-    inline frc2::SequentialCommandGroup cubeHandoff{
-        ToggleFrontIntake(true), MoveArmToIntake(ArmPosition::CUBE_POS), autoOuttake};
+    inline frc2::SequentialCommandGroup cubeHandoff {
+        ToggleFrontIntake(true), MoveArmToIntake(ArmPosition::CUBE_POS), autoOuttake
+    };
 
     // Return XBox left stick for throttle control
     inline double getXBoxThrottle()
@@ -72,11 +71,20 @@ namespace cb
         return driverCon.GetRightX() * kMaxTurnSpeed;
     }
 
-    inline Climb autoClimb { 1.17_m };
+    inline Climb climb { 1.17_m };
+    inline WinClimb winClimb { 1.17_m };
 
-    inline frc2::InstantCommand testClimb { []() {
-        climbCommand.setGoal(units::meter_t(frc::SmartDashboard::GetNumber("Climbing Distance", 1.17)));
-        climbCommand.Schedule();
+    inline frc2::InstantCommand testClimb { 
+        []() {
+            climb.setGoal(units::meter_t(frc::SmartDashboard::GetNumber("Climb Distance", 1.17)));
+            climb.Schedule();
+        }
+    };
+
+    inline frc2::InstantCommand testWinClimb { 
+        []() {
+            winClimb.setGoal(units::meter_t(frc::SmartDashboard::GetNumber("WinClimb Distance", 1.17)));
+            winClimb.Schedule();
         }
     };
 

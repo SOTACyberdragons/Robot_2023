@@ -5,7 +5,7 @@
 #include "Robot.h"
 
 void cb::Robot::updateSmartDashboardData() {
-  // frc::SmartDashboard::PutNumber("Roll", g_drivetrain.getGyro().GetRoll());
+  frc::SmartDashboard::PutNumber("Roll", g_drivetrain.getGyro().GetRoll());
   // frc::SmartDashboard::PutNumber("Yaw", g_drivetrain.getGyro().GetYaw());
   // frc::SmartDashboard::PutNumber("Pitch", g_drivetrain.getGyro().GetPitch());
   // frc::SmartDashboard::PutNumber("Left Wheel Velocity", g_drivetrain.getWheelSpeeds().left.to<double>());
@@ -30,7 +30,8 @@ void cb::Robot::RobotInit() {
   g_arm.toggleArmBase();
 
   addAutoModeOptions();
-  frc::SmartDashboard::PutNumber("Climbing Distance", climbingMeters);
+  frc::SmartDashboard::PutNumber("Climb Distance", 1);
+  frc::SmartDashboard::PutNumber("WinClimb Distance", 1);
 }
 
 void cb::Robot::RobotPeriodic() {
