@@ -5,7 +5,7 @@
 #include <map>
 
 #include <frc2/command/SubsystemBase.h>
-#include <frc/Solenoid.h>
+#include <frc/DoubleSolenoid.h>
 #include <frc/DigitalInput.h>
 #include <frc/PneumaticsControlModule.h>
 
@@ -23,9 +23,11 @@ namespace cb {
     private:
         frc::DigitalInput m_limitSwitch { LIMIT_SWITCH_CHANNEL_ID };
         frc::PneumaticsControlModule m_pcm { PCM_ID };
-
-        frc::Solenoid m_solenoid { PCM_ID, frc::PneumaticsModuleType::CTREPCM, SOLENOID_CHANNEL };  
-        bool m_setSolenoid = false;
+        
+        frc::DoubleSolenoid m_solenoid { 
+            PCM_ID, frc::PneumaticsModuleType::CTREPCM, 
+            ARM_SOLENOID_FORWARD_CHANNEL_ID, ARM_SOLENOID_REVERSE_CHANNEL_ID
+        };
 
         WPI_TalonFX m_limb { LIMB_ID };
 
@@ -40,10 +42,8 @@ namespace cb {
         
         bool getLimitSwitchState() const;
 
-        //true for on and false for off
         void toggleArmBase();
 
-        void moveToPosition(double setPoint);
         void resetPosition();
 
         //positive voltage for going up, negative for going down

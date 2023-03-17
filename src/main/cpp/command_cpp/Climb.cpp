@@ -18,6 +18,8 @@ void cb::Climb::Initialize() {
     m_voltage = toRampVoltage;
     m_onRamp = false;
     m_isFinished = false;
+
+    std::cout << "Goal: " << m_goal.to<double>() << std::endl;
 }
 
 void cb::Climb::Execute() {
@@ -97,10 +99,13 @@ bool cb::Climb::IsFinished() {
 }
 
 void cb::Climb::End(bool) {
-
     //g_drivetrain.setMotorMode(NeutralMode::Brake);
     g_drivetrain.tankDriveVolts(0_V, 0_V);
     g_drivetrain.setMotorMode(NeutralMode::Brake);
+}
+
+void cb::Climb::setGoal(units::meter_t meters) {
+    m_goal = meters;
 }
 
 cb::Climb::Climb(units::meter_t meters)

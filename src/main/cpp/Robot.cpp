@@ -5,20 +5,20 @@
 #include "Robot.h"
 
 void cb::Robot::updateSmartDashboardData() {
-  frc::SmartDashboard::PutNumber("Roll", g_drivetrain.getGyro().GetRoll());
-  frc::SmartDashboard::PutNumber("Yaw", g_drivetrain.getGyro().GetYaw());
-  frc::SmartDashboard::PutNumber("Pitch", g_drivetrain.getGyro().GetPitch());
-  frc::SmartDashboard::PutNumber("Left Wheel Velocity", g_drivetrain.getWheelSpeeds().left.to<double>());
-  frc::SmartDashboard::PutNumber("Right Wheel Velocity", g_drivetrain.getWheelSpeeds().right.to<double>());
+  // frc::SmartDashboard::PutNumber("Roll", g_drivetrain.getGyro().GetRoll());
+  // frc::SmartDashboard::PutNumber("Yaw", g_drivetrain.getGyro().GetYaw());
+  // frc::SmartDashboard::PutNumber("Pitch", g_drivetrain.getGyro().GetPitch());
+  // frc::SmartDashboard::PutNumber("Left Wheel Velocity", g_drivetrain.getWheelSpeeds().left.to<double>());
+  // frc::SmartDashboard::PutNumber("Right Wheel Velocity", g_drivetrain.getWheelSpeeds().right.to<double>());
   frc::SmartDashboard::PutNumber("Arm Sensor Position", g_arm.getSensorPos());
-  frc::SmartDashboard::PutNumber("Intake FX Sensor Position", g_frontIntake.getFXSensorPos());
-  frc::SmartDashboard::PutBoolean("Arm Limit Switch", g_arm.getLimitSwitchState());
+  //frc::SmartDashboard::PutNumber("Intake FX Sensor Position", g_frontIntake.getFXSensorPos());
+  frc::SmartDashboard::PutBoolean("Arm Limit Switch", !g_arm.getLimitSwitchState());
   frc::SmartDashboard::PutBoolean("Front Intake Up", g_frontIntake.up());
   frc::SmartDashboard::PutBoolean("Front intake down", g_frontIntake.down());
-  frc::SmartDashboard::PutNumber("X", g_drivetrain.getPose().X().to<double>());
-  frc::SmartDashboard::PutNumber("Y", g_drivetrain.getPose().Y().to<double>());
-  frc::SmartDashboard::PutBoolean("Feedforward Enabled", usingFeedForward);
-  frc::SmartDashboard::PutBoolean("Jaws Closed", g_frontIntake.isClosed());
+  // frc::SmartDashboard::PutNumber("X", g_drivetrain.getPose().X().to<double>());
+  // frc::SmartDashboard::PutNumber("Y", g_drivetrain.getPose().Y().to<double>());
+  // frc::SmartDashboard::PutBoolean("Feedforward Enabled", usingFeedForward);
+  // frc::SmartDashboard::PutBoolean("Jaws Closed", g_frontIntake.isClosed());
   //frc::SmartDashboard::PutBoolean("On Ramp", )
   //std::cout << g_frontIntake.down() << std::endl;
 }
@@ -30,8 +30,7 @@ void cb::Robot::RobotInit() {
   g_arm.toggleArmBase();
 
   addAutoModeOptions();
-  std::thread cameraThread(runCamera);
-  cameraThread.detach();
+  frc::SmartDashboard::PutNumber("Climbing Distance", climbingMeters);
 }
 
 void cb::Robot::RobotPeriodic() {
